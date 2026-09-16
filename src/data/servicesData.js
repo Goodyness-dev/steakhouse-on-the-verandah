@@ -1,17 +1,88 @@
 export const SERVICES = [
   {
+    id: "lunch-specials",
+    name: "September Lunch Specials on the Verandah",
+    shortDescription: "Chef-crafted midday favorites served alfresco on the Devon House Verandah with complimentary fresh lemonade.",
+    badge: "Seasonal Lunch Special",
+    image: "/images/lunch-specials-menu.png",
+    featuredDishes: [
+      {
+        name: "Crab Salad Sandwich with Miso Mayo & Fries",
+        price: "$2,800 JMD (~$18 USD)",
+        desc: "Fresh succulent crab meat tossed in house-made umami miso mayo on toasted artisanal brioche.",
+        image: "/images/pedestal-1.jpg"
+      },
+      {
+        name: "Caribbean Lobster Roll with Fries",
+        price: "$3,000 JMD (~$20 USD)",
+        desc: "Butter-poached tender island spiny lobster, lemon-herb emulsion, and crispy golden seasoned fries.",
+        image: "/images/real-steak-fries-redstripe.jpg"
+      },
+      {
+        name: "Curry Chicken Chop Bowl",
+        price: "$2,200 JMD (~$14 USD)",
+        desc: "Fragrant Jamaican spiced chicken chop over coconut rice & peas, sweet plantain, and mango slaw.",
+        image: "/images/real-grilled-chicken-pasta.jpg"
+      },
+      {
+        name: "Lamb & Plantain Wrap with Mint Mayo & Fries",
+        price: "$2,700 JMD (~$17 USD)",
+        desc: "Tender slow-roasted lamb, caramelized ripe plantains, crisp greens, and cool mint mayonnaise.",
+        image: "/images/prime-cuts.jpg"
+      },
+      {
+        name: "Soup + Salad & Garlic Bread",
+        price: "$1,700 JMD (~$11 USD)",
+        desc: "Daily chef soup paired with farm-fresh garden salad and warm buttered garlic toast.",
+        image: "/images/gallery-spread.jpg"
+      }
+    ],
+    features: [
+      "Includes 1 Free Ice-Cold House-Pressed Lemonade with each lunch order!",
+      "Available Tuesday through Saturday 11:30 AM to 3:30 PM on the Verandah",
+      "Quick 15-minute corporate lunch service available for Kingston business guests"
+    ],
+    sidesIncluded: "Accompanied by golden seasoned fries or garden greens + 10% service charge.",
+    recommendedFor: "Corporate power lunches, midday garden escapes, and relaxed verandah meetings."
+  },
+  {
     id: "dry-aged-steaks",
     name: "Prime In-House Dry-Aged Steaks",
-    shortDescription: "Custom dry-aged between 35 and 41 days in our Himalayan salt vault, grilled over pimento hardwood embers.",
-    badge: "House Signature",
-    iconType: "flame",
-    fullDescription: "Our flagship cuts represent the zenith of Jamaican cattle craftsmanship. Aged 35 to 41 days in a climate-controlled vault lined with Himalayan salt rock, each cut develops deep nutty umami complexity before meeting our searing pimento wood grill.",
+    shortDescription: "Aged 35 to 41 days in our Himalayan salt vault and seared over pimento hardwood coals.",
+    badge: "House Flagship",
+    image: "/images/real-verandah-steak.jpg",
+    featuredDishes: [
+      {
+        name: "The Kingston Signature Steak (KSS)",
+        price: "$72 USD / $11,000 JMD",
+        desc: "Center-cut prime beef aged in our salt vault, crusted in Jamaican Blue Mountain espresso & bone marrow reduction.",
+        image: "/images/real-verandah-steak.jpg"
+      },
+      {
+        name: "Steak Frites & Red Stripe Pairing",
+        price: "$45 USD / $6,900 JMD",
+        desc: "Seared sliced striploin over seasoned hand-cut fries with herb butter, served with a chilled Red Stripe lager.",
+        image: "/images/real-steak-fries-redstripe.jpg"
+      },
+      {
+        name: "Prime 38-Day Bone-In Ribeye (18 oz)",
+        price: "$85 USD / $13,000 JMD",
+        desc: "Intensely marbled prime ribeye flame-grilled over pimento wood with roasted garlic compound butter.",
+        image: "/images/prime-cuts.jpg"
+      },
+      {
+        name: "Center-Cut Filet Mignon (8 oz / 10 oz)",
+        price: "$68 USD / $10,500 JMD",
+        desc: "Fork-tender black angus tenderloin with black winter truffle glaze and caramelized pearl onions.",
+        image: "/images/hero-dining.jpg"
+      }
+    ],
     features: [
-      "The KSS (Kingston Signature Steak) — Blue Mountain coffee rub & bone marrow reduction",
-      "Prime 38-Day Dry-Aged Bone-In Ribeye (18 oz) with roasted herb butter",
-      "Center-Cut Black Angus Filet Mignon (8 oz / 10 oz) with black winter truffle butter",
-      "Imperial 40-Day Dry-Aged Tomahawk (38 oz) carved tableside for two",
-      "Prime New York Strip (14 oz) with peppercorn cognac glaze"
+      "The KSS (Kingston Signature Steak) — Blue Mountain espresso rub & bone marrow glaze",
+      "Steak Frites with crispy onions, melted herb sauce & cold Red Stripe lager",
+      "Prime 38-Day Dry-Aged Bone-In Ribeye (18 oz) with roasted garlic butter",
+      "Center-Cut Black Angus Filet Mignon with black winter truffle butter",
+      "Imperial 40-Day Dry-Aged Tomahawk (38 oz) carved tableside for two"
     ],
     sidesIncluded: "Accompanied by roasted garlic whipped yam or truffle mashed potatoes and glazed asparagus.",
     recommendedFor: "Connoisseurs of prime aged beef, celebratory occasions, and executive dinners."
@@ -21,8 +92,27 @@ export const SERVICES = [
     name: "Artisanal Verandah Starters",
     shortDescription: "Celebrated Jamaican ingredients transformed into contemporary fine dining preludes.",
     badge: "Culinary Highlights",
-    iconType: "sparkles",
-    fullDescription: "Begin your verandah evening with dishes that weave rich Jamaican agricultural heritage into refined European technique. From slow-roasted bone marrow to sweet ackee pairings, each dish sets a magnificent culinary tone.",
+    image: "/images/pedestal-1.jpg",
+    featuredDishes: [
+      {
+        name: "Scotch Bonnet Roasted Bone Marrow",
+        price: "$24 USD / $3,700 JMD",
+        desc: "Slow-roasted herb marrow, fresh shallot-parsley gremolata, pickled scotch bonnet peppers & grilled brioche.",
+        image: "/images/pedestal-1.jpg"
+      },
+      {
+        name: "Ackee & House-Cured Atlantic Salmon",
+        price: "$22 USD / $3,400 JMD",
+        desc: "Silky house-cured salmon over warm ackee mousseline, crispy capers, and sweet pepper reduction.",
+        image: "/images/pedestal-2.jpg"
+      },
+      {
+        name: "Jamaican Pumpkin & Sweet Corn Bisque",
+        price: "$18 USD / $2,800 JMD",
+        desc: "Silky highland pumpkin broth with coconut froth, sweet corn kernels, and buttered crab morsels.",
+        image: "/images/gallery-spread.jpg"
+      }
+    ],
     features: [
       "Scotch Bonnet Roasted Bone Marrow with shallot parsley gremolata & grilled brioche",
       "House-Cured Atlantic Salmon with ackee mousseline & crispy capers",
@@ -36,15 +126,34 @@ export const SERVICES = [
   {
     id: "coastal-specialties",
     name: "Coastal Seafood & Verandah Classics",
-    shortDescription: "Wild Caribbean snapper, succulent spiny lobster, and rich house-made pastas.",
+    shortDescription: "Wild Caribbean snapper, succulent spiny lobster, and scratch-made pastas.",
     badge: "Ocean & Garden",
-    iconType: "utensils",
-    fullDescription: "For guests desiring the treasures of the Caribbean Sea and island farms, our kitchen prepares pristine freshly caught seafood, succulent lobster, and delicate scratch pasta infused with local harvest.",
+    image: "/images/real-grilled-chicken-pasta.jpg",
+    featuredDishes: [
+      {
+        name: "Grilled Chicken Rigatoni in Golden Sauce",
+        price: "$28 USD / $4,300 JMD",
+        desc: "Herb-seared sliced chicken breast over rigatoni in rich golden scotch-parmesan cream with beet crisps.",
+        image: "/images/real-grilled-chicken-pasta.jpg"
+      },
+      {
+        name: "Pan-Seared Caribbean Red Snapper",
+        price: "$38 USD / $5,800 JMD",
+        desc: "Crisp-skin wild snapper fillet over coconut callaloo risotto with mango coulis and herb oil.",
+        image: "/images/hero-dining.jpg"
+      },
+      {
+        name: "Tomato & Callaloo Lobster Fettuccine",
+        price: "$48 USD / $7,400 JMD",
+        desc: "House-made fettuccine with butter-poached Caribbean spiny lobster tail, vine tomatoes, and mountain callaloo.",
+        image: "/images/gallery-spread.jpg"
+      }
+    ],
     features: [
+      "Herb-Grilled Sliced Chicken Breast over Golden Rigatoni with beet crisps",
       "Pan-Seared Caribbean Red Snapper over coconut callaloo risotto with mango coulis",
       "Tomato & Callaloo Fettuccine with grilled butter-poached spiny lobster tail",
       "Blue Mountain Coffee Crusted Lamb Rack with rosemary roasted root vegetables",
-      "Pimento Smoked Free-Range Chicken Breast with thyme roasted baby potatoes",
       "Wild Forest Mushroom & Truffle Gnocchi with shaved parmesan reggiano"
     ],
     sidesIncluded: "Garnished with estate micro-greens grown locally in the Blue Mountains.",
@@ -55,8 +164,27 @@ export const SERVICES = [
     name: "Estate Desserts & Sweet Finishes",
     shortDescription: "Decadent handmade confections incorporating legendary Devon House traditions.",
     badge: "Grand Finale",
-    iconType: "cake",
-    fullDescription: "No dinner on the Devon House Verandah is complete without our signature confections. Featuring local single-origin cacao, estate vanilla, and authentic Devon Stout ice cream made on the grounds.",
+    image: "/images/gallery-dessert.jpg",
+    featuredDishes: [
+      {
+        name: "Warm Flourless Dark Chocolate Cake",
+        price: "$18 USD / $2,800 JMD",
+        desc: "Rich single-origin dark cocoa cake with real Devon Stout ice cream and roasted spiced berries.",
+        image: "/images/gallery-dessert.jpg"
+      },
+      {
+        name: "Island Mango & Passionfruit Panna Cotta",
+        price: "$16 USD / $2,500 JMD",
+        desc: "Silky vanilla bean panna cotta topped with tropical mango jelly and toasted coconut tuile.",
+        image: "/images/pedestal-3.jpg"
+      },
+      {
+        name: "Devon House Artisanal Ice Cream Flight",
+        price: "$14 USD / $2,200 JMD",
+        desc: "Three scoops of legendary house flavors: Devon Stout, Blue Mountain Coffee, and Mango Delight.",
+        image: "/images/hours-poster.jpg"
+      }
+    ],
     features: [
       "Warm Flourless Dark Chocolate Cake with rich Devon Stout ice cream & gold leaf",
       "Island Mango & Passionfruit Panna Cotta with toasted coconut tuile",
@@ -72,8 +200,27 @@ export const SERVICES = [
     name: "Sommelier Wine Vault & Craft Bar",
     shortDescription: "Over 180 international labels, rare vintage rums, and bespoke hand-crafted cocktails.",
     badge: "Sommelier Reserve",
-    iconType: "wine",
-    fullDescription: "Our temperature-calibrated wine vault houses vintage Bordeaux, Napa Cabernets, Super Tuscans, and crisp Champagnes. At the bar, master mixologists craft cocktails infused with rare Jamaican rums and fresh botanicals.",
+    image: "/images/gallery-cocktails.jpg",
+    featuredDishes: [
+      {
+        name: "Smoked Rum Old Fashioned",
+        price: "$18 USD / $2,800 JMD",
+        desc: "Appleton Estate 21-Year Rare Rum, pimento bitters, orange peel, and charred cinnamon smoke.",
+        image: "/images/gallery-cocktails.jpg"
+      },
+      {
+        name: "Hibiscus Lychee French 75",
+        price: "$20 USD / $3,100 JMD",
+        desc: "Veuve Clicquot Champagne, botanical gin, wild hibiscus syrup, and fresh lychee essence.",
+        image: "/images/devon-courtyard-real.jpg"
+      },
+      {
+        name: "Vintage Jamaican Rum Tasting Flight",
+        price: "$35 USD / $5,400 JMD",
+        desc: "Three reserve pours: Appleton 21, Hampden Estate 8-Yr, and Worthy Park Single Estate.",
+        image: "/images/devon-mansion-real.jpg"
+      }
+    ],
     features: [
       "Kingston Verandah Smoked Rum Old Fashioned with Appleton Estate 21-Year & pimento bitters",
       "Hibiscus Lychee French 75 with Veuve Clicquot champagne & botanicals",
@@ -83,22 +230,5 @@ export const SERVICES = [
     ],
     sidesIncluded: "Full sommelier pairing consultation available for tasting courses.",
     recommendedFor: "Cocktail aficionados, romantic toasts, and business entertaining."
-  },
-  {
-    id: "private-events",
-    name: "Private Dining & Verandah Receptions",
-    shortDescription: "Exclusive verandah buyout packages for VIP banquets, rehearsal dinners, and weddings.",
-    badge: "Exclusive Events",
-    iconType: "users",
-    fullDescription: "Host your most prestigious milestones on the historic George Stiebel verandah. Surrounded by tropical estate grounds with custom chef-curated tasting menus and dedicated butler service.",
-    features: [
-      "Bespoke 4-course or 6-course degustation menus tailored with Executive Chef",
-      "Exclusive East or West Verandah buyout seating up to 60 distinguished guests",
-      "Full cocktail reception setup on the Devon House manicured South Lawn",
-      "Dedicated sommelier, event coordinator, and private bar service",
-      "Audio-visual integration for speeches, presentations, and acoustic performances"
-    ],
-    sidesIncluded: "Custom printed menus, candlelight table scaping, and estate parking coordination.",
-    recommendedFor: "Weddings, milestone birthdays, diplomatic banquets, and corporate galas."
   }
 ];
