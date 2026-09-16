@@ -1,11 +1,12 @@
 /**
  * Image Manifest - The Steak House on the Verandah (Devon House, Kingston)
+ * Incorporating authentic dining photography & Devon House estate assets
  */
 export const imageManifest = {
   hero: {
     banner: '/images/hero-dining.jpg',
     poster: '/images/hours-poster.jpg',
-    alt: 'Exquisite fine dining plated steak at The Steak House on the Verandah'
+    alt: 'Exquisite fine dining steak at The Steak House on the Verandah'
   },
   pedestals: [
     {
@@ -13,14 +14,14 @@ export const imageManifest = {
       title: 'Scotch Bonnet Bone Marrow',
       category: 'Signature Starter',
       description: 'Slow-roasted herb marrow, toasted brioche, scotch bonnet gremolata',
-      alt: 'Artisanal roasted appetizer plate'
+      alt: 'Artisanal roasted bone marrow starter'
     },
     {
-      image: '/images/pedestal-2.jpg',
-      title: 'Kingston Signature Steak (KSS)',
-      category: '38-Day Dry Aged',
-      description: 'Prime cut, Jamaican Blue Mountain espresso crust, bone marrow glaze',
-      alt: 'Prime dry aged steak with rosemary and roasted garlic'
+      image: '/images/real-verandah-steak.jpg',
+      title: 'The Kingston Signature Steak (KSS)',
+      category: 'Actual Verandah Dish',
+      description: 'Prime cut with roasted vegetables, mushrooms, garlic whipped yam & cellar white wine on the verandah',
+      alt: 'Actual Kingston Signature Steak served on the Devon House Verandah'
     },
     {
       image: '/images/pedestal-3.jpg',
@@ -35,38 +36,39 @@ export const imageManifest = {
     alt: 'Executive Chef at The Steak House on the Verandah'
   },
   features: {
-    primeCuts: '/images/prime-cuts.jpg',
-    verandah: '/images/verandah-mansion.jpg',
-    spread: '/images/gallery-spread.jpg',
+    primeCuts: '/images/real-verandah-steak.jpg',
+    verandah: '/images/devon-mansion-real.jpg',
+    spread: '/images/devon-courtyard-real.jpg',
+    lawn: '/images/devon-lawn-real.jpg',
     cocktails: '/images/gallery-cocktails.jpg',
     dessert: '/images/gallery-dessert.jpg',
-    estate: '/images/devon-house.jpg'
+    estate: '/images/devon-mansion-real.jpg'
   },
   gallery: [
     {
-      src: '/images/hero-dining.jpg',
-      title: 'Table-Side Dry Aged Presentation',
-      tag: 'Cuisine'
+      src: '/images/real-verandah-steak.jpg',
+      title: 'Actual Verandah Steak & Wine Service',
+      tag: 'Authentic Dish'
     },
     {
-      src: '/images/prime-cuts.jpg',
-      title: 'Sizzling Heritage Tomahawk',
-      tag: 'Prime Cuts'
+      src: '/images/devon-mansion-real.jpg',
+      title: 'Historic 1881 Devon House Mansion',
+      tag: 'Heritage Estate'
     },
     {
-      src: '/images/gallery-spread.jpg',
-      title: 'The Verandah Degustation Table',
-      tag: 'Tasting'
+      src: '/images/devon-courtyard-real.jpg',
+      title: 'The Verandah Courtyard & Dining Breezeway',
+      tag: 'Ambiance'
+    },
+    {
+      src: '/images/devon-lawn-real.jpg',
+      title: 'The Devon House South Lawn',
+      tag: 'Gardens'
     },
     {
       src: '/images/gallery-cocktails.jpg',
-      title: 'Smoked Rum Old Fashioned',
+      title: 'Craft Rum Old Fashioned & Cellar Bar',
       tag: 'Cellar & Bar'
-    },
-    {
-      src: '/images/verandah-mansion.jpg',
-      title: 'Devon House Colonial Terrace',
-      tag: 'Ambiance'
     },
     {
       src: '/images/gallery-dessert.jpg',

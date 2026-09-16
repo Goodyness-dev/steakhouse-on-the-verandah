@@ -12,8 +12,9 @@ export const BUSINESS_INFO = {
     country: "Jamaica, W.I.",
     formatted: "26 Hope Road, Devon House, Kingston 10, Jamaica, W.I.",
   },
-  phone: "(876) 616-8831",
-  secondaryPhone: "(876) 926-6867",
+  phone: "(876) 403-6249",
+  secondaryPhone: "(876) 616-8831",
+  conciergePhone: "(876) 926-6867",
   website: "devonhouseja.com",
   email: "reservations@steakhouseja.com",
   googleMapsLink: "https://maps.google.com/?cid=1295283457193859281&q=The+Steak+House+on+the+Verandah+Devon+House",
@@ -21,12 +22,12 @@ export const BUSINESS_INFO = {
   
   hours: [
     { day: "Monday", open: "Closed", close: "Closed", note: "Private Verandah Events by Inquiry" },
-    { day: "Tuesday", open: "11:00 AM", close: "9:30 PM", note: "Lunch & Dinner" },
-    { day: "Wednesday", open: "11:00 AM", close: "9:30 PM", note: "Lunch & Dinner" },
-    { day: "Thursday", open: "11:00 AM", close: "9:30 PM", note: "Lunch & Dinner" },
-    { day: "Friday", open: "11:00 AM", close: "10:00 PM", note: "Dinner & Cellar Service" },
-    { day: "Saturday", open: "11:00 AM", close: "10:00 PM", note: "Dinner & Cellar Service" },
-    { day: "Sunday", open: "11:30 AM", close: "8:00 PM", note: "Sunday Verandah Roasts & Dinner" },
+    { day: "Tuesday", open: "11:30 AM", close: "10:00 PM", note: "Lunch & Dinner" },
+    { day: "Wednesday", open: "11:30 AM", close: "10:00 PM", note: "Lunch & Dinner" },
+    { day: "Thursday", open: "11:30 AM", close: "10:00 PM", note: "Lunch & Dinner" },
+    { day: "Friday", open: "11:30 AM", close: "10:30 PM", note: "Dinner & Cellar Service" },
+    { day: "Saturday", open: "11:30 AM", close: "10:30 PM", note: "Dinner & Cellar Service" },
+    { day: "Sunday", open: "11:30 AM", close: "8:30 PM", note: "Sunday Verandah Roasts & Dinner" },
   ],
 
   history: [
@@ -36,14 +37,14 @@ export const BUSINESS_INFO = {
       description: "Built by Jamaica's first black millionaire, George Stiebel, Devon House stands as an architectural marvel of neo-classical Caribbean elegance in the heart of Kingston."
     },
     {
-      year: "2014",
-      title: "The Verandah Dining Tradition",
-      description: "Established on the breezy wraparound verandah of the mansion, bringing world-class culinary techniques to Jamaica's finest heritage landmark."
+      year: "2017",
+      title: "Founded by Marilyn Burrowes",
+      description: "Founded by hospitality visionary Marilyn Burrowes on the breeze-kissed wraparound verandah of Devon House to establish Kingston as the Caribbean's epicenter of prime dry-aged gastronomy."
     },
     {
       year: "2018",
       title: "Pioneering Local Dry Aging",
-      description: "Introduced Jamaica's first dedicated 35–41 day in-house dry-aging program, elevating local beef and artisanal cuts to international Michelin-worthy standards."
+      description: "Introduced Jamaica's first dedicated 35–41 day in-house dry-aging program, elevating local beef and artisanal cuts to international standards."
     },
     {
       year: "Present",

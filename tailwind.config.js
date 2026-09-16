@@ -33,7 +33,8 @@ export default {
         porcelain: '#FFFFFF',
       },
       fontFamily: {
-        serif: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
+        serif: ['"Bodoni Moda"', '"Playfair Display"', 'Georgia', 'serif'],
+        display: ['"Cinzel Decorative"', '"Bodoni Moda"', 'serif'],
         sans: ['"Plus Jakarta Sans"', '"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
