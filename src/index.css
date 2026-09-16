@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#EFECE6] text-charcoal-900 font-sans antialiased selection:bg-gold-500 selection:text-white;
+  }
+
+  h1, h2, h3, .font-serif-heading {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* 3D Floating Plinth Pedestal System matching the mockup */
+.pedestal-plinth {
+  background: linear-gradient(145deg, #ffffff 0%, #f7f5f0 100%);
+  box-shadow: 
+    20px 30px 55px -12px rgba(45, 33, 20, 0.22),
+    8px 12px 24px -6px rgba(45, 33, 20, 0.12),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0);
+}
+
+.pedestal-plinth:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 
+    26px 38px 65px -14px rgba(45, 33, 20, 0.28),
+    12px 18px 30px -8px rgba(45, 33, 20, 0.16),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+}
+
+/* Dramatic Pedestal Shelf 3D Side Elevation */
+.pedestal-3d-shelf {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 1.25rem;
+  box-shadow: 
+    24px 34px 50px -10px rgba(35, 25, 15, 0.22),
+    8px 12px 20px -6px rgba(35, 25, 15, 0.12);
+}
+
+.pedestal-3d-shelf::after {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  right: -8px;
+  width: 90%;
+  height: 20px;
+  background: rgba(30, 20, 10, 0.18);
+  filter: blur(12px);
+  border-radius: 50%;
+  z-index: -1;
+  transform: skewX(-15deg);
+}
+
+/* Pill CTA Buttons */
+.pill-btn-outline {
+  @apply rounded-full border border-charcoal-800/80 px-7 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-900 transition-all duration-300 hover:bg-charcoal-900 hover:text-white active:scale-95;
+}
+
+.pill-btn-gold {
+  @apply rounded-full bg-gold-500 border border-gold-600 px-7 py-2.5 text-xs font-semibold uppercase tracking-widest text-white shadow-md transition-all duration-300 hover:bg-gold-600 hover:shadow-lg active:scale-95;
+}
+
+.pill-btn-dark {
+  @apply rounded-full bg-charcoal-900 border border-charcoal-950 px-7 py-2.5 text-xs font-semibold uppercase tracking-widest text-white shadow-md transition-all duration-300 hover:bg-black hover:border-gold-500/40 active:scale-95;
+}
+
+/* Thick & Alive Dining Cards */
+.card-dining {
+  @apply bg-[#FAF8F5] border-2 border-[#E5DFD4] rounded-3xl p-8 transition-all duration-300;
+  box-shadow: 0 15px 35px -10px rgba(35, 25, 15, 0.08);
+}
+
+.card-dining-dark {
+  @apply bg-[#151413] border-2 border-[#2C2A26] rounded-3xl p-8 text-cream-100 transition-all duration-300;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.35);
+}
+
+/* Custom Scrollbar for Luxury Aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #EFECE6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4B9A7;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B38E5D;
+}
