@@ -38,30 +38,32 @@ export default function AdminLayout({ user, onLogout, onBackToSite }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F4EFE8] text-charcoal-900 font-sans flex antialiased">
+    <div className="min-h-screen bg-[#EFECE6] text-charcoal-900 font-sans flex antialiased">
       {/* Mobile Drawer Backdrop */}
       {isMobileSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-xs"
           onClick={() => setIsMobileSidebarOpen(false)}
         />
       )}
 
-      {/* Luxury Left Sidebar matching template aesthetic */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[#181715] text-cream-100 border-r border-[#2F2C27] flex flex-col justify-between transition-transform duration-300 ease-in-out ${
+      {/* Luxury Left Sidebar matching main site aesthetic */}
+      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[#1A1816] text-cream-100 border-r border-[#2F2C27] flex flex-col justify-between transition-transform duration-300 ease-in-out ${
         isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
-        {/* Sidebar Header & Monogram */}
+        {/* Sidebar Header & Real Image */}
         <div>
-          <div className="h-20 flex items-center px-6 border-b border-[#2A2823] space-x-3">
-            <div className="w-10 h-10 rounded-full border border-gold-500/70 bg-black/40 flex items-center justify-center font-serif font-bold text-gold-400 text-sm">
-              SV
-            </div>
+          <div className="h-20 flex items-center px-5 border-b border-[#2A2823] space-x-3">
+            <img 
+              src="/images/devon-mansion-real.jpg" 
+              alt="Devon House Estate" 
+              className="w-10 h-10 rounded-full object-cover border-2 border-gold-500 shadow-sm"
+            />
             <div className="overflow-hidden">
               <span className="font-serif font-bold text-cream-100 text-sm tracking-tight block truncate">
                 The Steak House
               </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-gold-500 block">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-gold-500 block font-medium">
                 Maitre d' Concierge
               </span>
             </div>
@@ -97,17 +99,17 @@ export default function AdminLayout({ user, onLogout, onBackToSite }) {
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-[#2A2823] space-y-3">
+        <div className="p-4 border-t border-[#2A2823] space-y-2.5">
           <button
             onClick={onBackToSite}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl border border-white/15 text-cream-300 hover:text-white hover:bg-white/5 text-xs font-medium transition"
+            className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl border border-white/15 text-cream-300 hover:text-white hover:bg-white/5 text-xs font-medium transition cursor-pointer"
           >
             <span>← View Public Site</span>
           </button>
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-2 rounded-xl text-xs text-red-400 hover:bg-red-950/30 transition font-medium"
+            className="w-full flex items-center justify-center space-x-2 px-4 py-2 rounded-xl text-xs text-red-400 hover:bg-red-950/30 transition font-medium cursor-pointer"
           >
             <span>Sign Out</span>
           </button>
@@ -117,39 +119,40 @@ export default function AdminLayout({ user, onLogout, onBackToSite }) {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Navbar */}
-        <header className="h-20 bg-[#FAF8F5] border-b border-[#E2DBD0] px-6 flex items-center justify-between shadow-sm">
-          <div className="flex items-center space-x-4">
+        <header className="h-20 bg-[#FCFAF7] border-b border-[#D8D2C5] px-4 sm:px-8 flex items-center justify-between shadow-xs">
+          <div className="flex items-center space-x-3 overflow-hidden">
             <button
               onClick={() => setIsMobileSidebarOpen(true)}
-              className="lg:hidden p-2 text-charcoal-700 hover:text-black"
+              className="lg:hidden px-3 py-1.5 rounded-xl bg-white border border-[#D8D2C5] text-xs font-bold uppercase tracking-wider text-charcoal-900 shadow-xs cursor-pointer shrink-0"
+              aria-label="Open Navigation Menu"
             >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              Menu
             </button>
-            <h1 className="font-serif text-xl sm:text-2xl font-bold text-charcoal-900 capitalize">
-              {activeTab === 'dashboard' ? "Maitre d' Management Overview" :
-               activeTab === 'orders' ? "Table Reservations & Private Banquets" :
+            <h1 className="font-serif text-base sm:text-xl lg:text-2xl font-bold text-charcoal-900 capitalize truncate">
+              {activeTab === 'dashboard' ? "Maitre d' Overview" :
+               activeTab === 'orders' ? "Table Reservations" :
                "Guest Concierge Inbox"}
             </h1>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3 shrink-0">
             <button
               onClick={() => setIsNewOrderOpen(true)}
-              className="rounded-full bg-gold-600 hover:bg-gold-700 text-white px-5 py-2 text-xs font-semibold uppercase tracking-wider transition shadow active:scale-95 flex items-center space-x-1.5"
+              className="rounded-full bg-gold-600 hover:bg-gold-700 text-white px-3.5 sm:px-5 py-2 text-xs font-semibold uppercase tracking-wider transition shadow active:scale-95 cursor-pointer whitespace-nowrap"
             >
-              <span>+ New Booking</span>
+              + Booking
             </button>
 
-            <div className="w-9 h-9 rounded-full bg-charcoal-900 text-gold-400 font-serif font-bold text-xs flex items-center justify-center border border-gold-500/40">
-              {getInitials(user?.username || 'Admin')}
-            </div>
+            <img 
+              src="/images/devon-mansion-real.jpg" 
+              alt="Maitre d'" 
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border border-gold-500/60 shadow-xs"
+            />
           </div>
         </header>
 
         {/* View Component Render */}
-        <main className="flex-1 overflow-y-auto p-6 sm:p-8">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           {activeTab === 'dashboard' && (
             <DashboardOverview 
               stats={stats}

@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Send, Mail, Lock, ShieldCheck, CheckCircle2, AlertCircle, 
-  Loader2, Save, Eye, EyeOff, HelpCircle, ExternalLink, RefreshCw, Key
-} from 'lucide-react';
 import { settingsApi, authApi } from '../../services/api';
 import { BUSINESS_INFO } from '../../data/businessData';
 
@@ -88,7 +84,7 @@ export default function AdminSettings() {
 
   const handleTestEmail = async () => {
     if (!testEmailAddress) {
-      setEmailTestResult({ success: false, error: 'Please enter an email address to send the test quote to.' });
+      setEmailTestResult({ success: false, error: 'Please enter an email address to send the test confirmation to.' });
       return;
     }
 
@@ -141,9 +137,9 @@ export default function AdminSettings() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-slate-400 space-y-3">
-        <Loader2 className="w-8 h-8 animate-spin text-red-600" />
-        <span className="text-sm font-medium">Loading shop configurations...</span>
+      <div className="flex flex-col items-center justify-center py-20 text-[#7A7265] space-y-3">
+        <div className="w-8 h-8 rounded-full border-2 border-[#B38E5D] border-t-transparent animate-spin"></div>
+        <span className="text-sm font-serif">Loading Devon House settings...</span>
       </div>
     );
   }
@@ -152,62 +148,58 @@ export default function AdminSettings() {
     <div className="max-w-4xl mx-auto space-y-8 pb-16">
       {/* Top Banner Alert on Save */}
       {saveSuccess && (
-        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center space-x-3 shadow-xs animate-fade-in">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-          <span className="font-bold">Settings and automation credentials saved to SQLite database successfully!</span>
+        <div className="p-4 rounded-2xl bg-[#EDF5EC] border border-[#B2D8B9] text-[#2C6E33] text-sm shadow-xs animate-fade-in">
+          <strong className="block font-bold">Restaurant Configurations Updated</strong>
+          <span>Settings and concierge notification credentials have been saved successfully.</span>
         </div>
       )}
 
       {saveError && (
-        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-sm flex items-center space-x-3 shadow-xs">
-          <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-sm shadow-xs">
           <span>{saveError}</span>
         </div>
       )}
 
-      {/* SECTION 1: Telegram Order Alerts */}
-      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-5">
+      {/* SECTION 1: Telegram Reservation Alerts */}
+      <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#D8D2C5]/60 pb-5">
           <div>
-            <div className="flex items-center space-x-2.5">
-              <span className="text-2xl">📱</span>
-              <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-900">
-                Telegram Instant Order Alerts
-              </h2>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Receive live notifications on your phone the instant a customer requests a quote on your website.
+            <span className="text-[10px] font-mono tracking-widest text-[#B38E5D] uppercase block mb-1">Live Notifications</span>
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1A1816]">
+              Telegram Instant Reservation Alerts
+            </h2>
+            <p className="text-xs sm:text-sm text-[#7A7265] mt-1">
+              Receive live notifications on the maître d' phone the instant a guest books a table or requests an event quote.
             </p>
           </div>
 
-          <label className="flex items-center space-x-3 cursor-pointer bg-slate-50 border border-slate-200 px-4 py-2 rounded-2xl hover:border-slate-300 transition">
+          <label className="flex items-center space-x-3 cursor-pointer bg-[#F4EFE6] border border-[#D8D2C5] px-4 py-2.5 rounded-2xl hover:border-[#B38E5D] transition">
             <input
               type="checkbox"
               checked={Boolean(settings.telegram_enabled)}
               onChange={(e) => setSettings({ ...settings, telegram_enabled: e.target.checked })}
-              className="w-4 h-4 text-red-600 rounded bg-white border-slate-300 focus:ring-red-600"
+              className="w-4 h-4 rounded text-[#1A1816] accent-[#1A1816] border-[#D8D2C5]"
             />
-            <span className="text-xs font-bold text-slate-900">Enable Telegram Alerts</span>
+            <span className="text-xs font-bold text-[#1A1816]">Enable Telegram Alerts</span>
           </label>
         </div>
 
         {/* Setup Walkthrough */}
-        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 space-y-2">
-          <div className="font-bold text-slate-900 flex items-center space-x-1.5 text-sm">
-            <HelpCircle className="w-4 h-4 text-shop-red" />
-            <span>How to set up Telegram alerts for {BUSINESS_INFO.name} (Takes 60 seconds):</span>
+        <div className="p-4 rounded-2xl bg-[#F4EFE6] border border-[#D8D2C5] text-xs text-[#4A443D] space-y-2">
+          <div className="font-bold text-[#1A1816] text-sm">
+            Quick 60-Second Setup for {BUSINESS_INFO.name}:
           </div>
-          <ol className="list-decimal list-inside space-y-1 text-slate-600 leading-relaxed pl-1">
-            <li>Open Telegram on your phone or computer, search for <strong className="text-slate-900">@BotFather</strong>, send <code className="text-shop-red bg-shop-light px-1 py-0.5 rounded font-mono font-bold">/newbot</code> and copy your HTTP API Token.</li>
-            <li>Search for <strong className="text-slate-900">@userinfobot</strong> on Telegram and tap Start to see your numeric <strong className="text-slate-900">Id</strong> (Chat ID).</li>
-            <li>Paste your Token and Chat ID below, click <strong className="text-slate-900">Test Connection</strong>, and verify you get the test ping on your phone!</li>
+          <ol className="list-decimal list-inside space-y-1 text-[#4A443D] leading-relaxed pl-1">
+            <li>Open Telegram, search for <strong className="text-[#1A1816]">@BotFather</strong>, send <code className="bg-[#EFECE6] px-1.5 py-0.5 rounded font-mono font-bold text-[#1A1816]">/newbot</code>, and copy your HTTP API Token.</li>
+            <li>Search for <strong className="text-[#1A1816]">@userinfobot</strong> on Telegram and tap Start to see your numeric <strong className="text-[#1A1816]">Id</strong> (Chat ID).</li>
+            <li>Paste your Token and Chat ID below, click <strong className="text-[#1A1816]">Test Telegram Connection</strong>, and receive the instant test ping!</li>
           </ol>
         </div>
 
         {/* Inputs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">
               Telegram Bot Token
             </label>
             <div className="relative">
@@ -216,28 +208,28 @@ export default function AdminSettings() {
                 value={settings.telegram_bot_token || ''}
                 onChange={(e) => setSettings({ ...settings, telegram_bot_token: e.target.value })}
                 placeholder="e.g. 7123456789:AAH..."
-                className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none font-mono transition"
+                className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] placeholder-[#7A7265]/50 outline-none font-mono transition"
               />
               <button
                 type="button"
                 onClick={() => setShowBotToken(!showBotToken)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-700"
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-xs font-bold text-[#7A7265] hover:text-[#1A1816]"
               >
-                {showBotToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showBotToken ? 'Hide' : 'Show'}
               </button>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              Telegram Chat ID (Your User ID)
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">
+              Telegram Chat ID (Maître d' ID)
             </label>
             <input
               type="text"
               value={settings.telegram_chat_id || ''}
               onChange={(e) => setSettings({ ...settings, telegram_chat_id: e.target.value })}
               placeholder="e.g. 123456789"
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none font-mono transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] placeholder-[#7A7265]/50 outline-none font-mono transition"
             />
           </div>
         </div>
@@ -248,20 +240,15 @@ export default function AdminSettings() {
             type="button"
             onClick={handleTestTelegram}
             disabled={isTestingTelegram}
-            className="py-2.5 px-5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-bold text-xs flex items-center space-x-2 transition active:scale-95 disabled:opacity-50"
+            className="py-2.5 px-5 rounded-xl bg-[#F4EFE6] hover:bg-[#EFECE6] border border-[#D8D2C5] text-[#1A1816] font-bold text-xs transition active:scale-95 disabled:opacity-50 cursor-pointer"
           >
-            {isTestingTelegram ? (
-              <><Loader2 className="w-4 h-4 animate-spin text-red-600" /><span>Sending Test Ping...</span></>
-            ) : (
-              <><Send className="w-4 h-4 text-red-600" /><span>Test Telegram Connection</span></>
-            )}
+            {isTestingTelegram ? 'Sending Test Ping...' : 'Test Telegram Connection'}
           </button>
 
           {telegramTestResult && (
-            <div className={`text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 ${
-              telegramTestResult.success ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'
+            <div className={`text-xs px-3.5 py-2 rounded-xl ${
+              telegramTestResult.success ? 'bg-[#EDF5EC] text-[#2C6E33] border border-[#B2D8B9]' : 'bg-red-50 text-red-800 border border-red-200'
             }`}>
-              {telegramTestResult.success ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <AlertCircle className="w-4 h-4 text-red-600" />}
               <span>{telegramTestResult.message || telegramTestResult.error}</span>
             </div>
           )}
@@ -269,23 +256,21 @@ export default function AdminSettings() {
       </div>
 
       {/* SECTION 2: Email Automation Settings */}
-      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="border-b border-slate-100 pb-5">
-          <div className="flex items-center space-x-2.5">
-            <span className="text-2xl">✉️</span>
-            <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-900">
-              Email Automation (Customer Quotes & Alerts)
-            </h2>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Automates sending official branded price quotes to customer email addresses and sending you quote alert summaries.
+      <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="border-b border-[#D8D2C5]/60 pb-5">
+          <span className="text-[10px] font-mono tracking-widest text-[#B38E5D] uppercase block mb-1">Email Concierge</span>
+          <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1A1816]">
+            Email Automation (Guest Confirmations & Alerts)
+          </h2>
+          <p className="text-xs sm:text-sm text-[#7A7265] mt-1">
+            Automates dispatching Devon House branded confirmations to dining guests and alerting the host desk.
           </p>
         </div>
 
         {/* EmailJS Credentials */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">
               EmailJS Service ID
             </label>
             <input
@@ -293,12 +278,12 @@ export default function AdminSettings() {
               value={settings.emailjs_service_id || ''}
               onChange={(e) => setSettings({ ...settings, emailjs_service_id: e.target.value })}
               placeholder="e.g. service_xxxxxx"
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none font-mono transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] placeholder-[#7A7265]/50 outline-none font-mono transition"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">
               EmailJS Public Key
             </label>
             <input
@@ -306,139 +291,132 @@ export default function AdminSettings() {
               value={settings.emailjs_public_key || ''}
               onChange={(e) => setSettings({ ...settings, emailjs_public_key: e.target.value })}
               placeholder="e.g. user_xxxxxxxxx"
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none font-mono transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] placeholder-[#7A7265]/50 outline-none font-mono transition"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              Customer Quote Template ID
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">
+              Guest Confirmation Template ID
             </label>
             <input
               type="text"
               value={settings.emailjs_template_id_quote || ''}
               onChange={(e) => setSettings({ ...settings, emailjs_template_id_quote: e.target.value })}
-              placeholder="e.g. template_customer_quote"
-              className="w-full bg-slate-50 border border-slate-200 focus:border-shop-red focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none font-mono transition"
+              placeholder="e.g. template_guest_confirmation"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] placeholder-[#7A7265]/50 outline-none font-mono transition"
             />
-            <span className="text-[11px] text-slate-400 mt-1 block">Used when clicking "Send Quote to Customer".</span>
+            <span className="text-[11px] text-[#7A7265] mt-1 block">Used when clicking "Send Official Reservation Confirmation".</span>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              New Order Notification Template ID
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">
+              New Booking Alert Template ID
             </label>
             <input
               type="text"
               value={settings.emailjs_template_id_notify || ''}
               onChange={(e) => setSettings({ ...settings, emailjs_template_id_notify: e.target.value })}
-              placeholder="e.g. template_admin_alert"
-              className="w-full bg-slate-50 border border-slate-200 focus:border-shop-red focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none font-mono transition"
+              placeholder="e.g. template_verandah_host"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] placeholder-[#7A7265]/50 outline-none font-mono transition"
             />
-            <span className="text-[11px] text-slate-400 mt-1 block">Alerts shop email when customer submits a quote request.</span>
+            <span className="text-[11px] text-[#7A7265] mt-1 block">Alerts restaurant team whenever a guest books online.</span>
           </div>
         </div>
 
         {/* Test Email Delivery */}
-        <div className="pt-2 border-t border-slate-100 space-y-3">
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Test Quote Email Delivery
+        <div className="pt-2 border-t border-[#D8D2C5]/60 space-y-3">
+          <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider">
+            Test Confirmation Email Delivery
           </label>
           <div className="flex flex-wrap sm:flex-nowrap gap-3">
             <input
               type="email"
               value={testEmailAddress}
               onChange={(e) => setTestEmailAddress(e.target.value)}
-              placeholder="your-email@example.com"
-              className="flex-1 bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 outline-none transition"
+              placeholder="concierge@devonhouse.com"
+              className="flex-1 bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-2.5 text-sm text-[#1A1816] placeholder-[#7A7265]/50 outline-none transition"
             />
             <button
               type="button"
               onClick={handleTestEmail}
               disabled={isTestingEmail}
-              className="py-2.5 px-5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-bold text-xs flex items-center space-x-2 transition shrink-0"
+              className="py-2.5 px-5 rounded-xl bg-[#F4EFE6] hover:bg-[#EFECE6] border border-[#D8D2C5] text-[#1A1816] font-bold text-xs transition shrink-0 cursor-pointer"
             >
-              {isTestingEmail ? (
-                <><Loader2 className="w-4 h-4 animate-spin text-red-600" /><span>Sending...</span></>
-              ) : (
-                <><Mail className="w-4 h-4 text-red-600" /><span>Send Test Quote Email</span></>
-              )}
+              {isTestingEmail ? 'Dispatching Test Email...' : 'Send Test Confirmation'}
             </button>
           </div>
 
           {emailTestResult && (
-            <div className={`text-xs p-3 rounded-xl flex items-center space-x-2 ${
-              emailTestResult.success ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'
+            <div className={`text-xs p-3 rounded-xl ${
+              emailTestResult.success ? 'bg-[#EDF5EC] text-[#2C6E33] border border-[#B2D8B9]' : 'bg-red-50 text-red-800 border border-red-200'
             }`}>
-              {emailTestResult.success ? <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> : <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />}
               <span>{emailTestResult.message || emailTestResult.error}</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* SECTION 3: Shop Profile & Defaults */}
-      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="border-b border-slate-100 pb-5">
-          <div className="flex items-center space-x-2.5">
-            <span className="text-2xl">🏪</span>
-            <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-900">
-              Shop Profile & Quote Defaults
-            </h2>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Information displayed on official email estimates and header footers.
+      {/* SECTION 3: Estate Profile & Defaults */}
+      <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="border-b border-[#D8D2C5]/60 pb-5">
+          <span className="text-[10px] font-mono tracking-widest text-[#B38E5D] uppercase block mb-1">Estate Information</span>
+          <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1A1816]">
+            Restaurant Profile & Seating Defaults
+          </h2>
+          <p className="text-xs sm:text-sm text-[#7A7265] mt-1">
+            Information shown on official guest confirmations, booking receipts, and dining communications.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Shop Phone</label>
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">Host Desk Phone</label>
             <input
               type="text"
               value={settings.shop_phone || ''}
               onChange={(e) => setSettings({ ...settings, shop_phone: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 outline-none transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] outline-none transition"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Shop Contact / Alert Email</label>
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">Concierge Alert Email</label>
             <input
               type="email"
               value={settings.shop_email || ''}
               onChange={(e) => setSettings({ ...settings, shop_email: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 outline-none transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] outline-none transition"
             />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Shop Address</label>
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">Devon House Estate Address</label>
             <input
               type="text"
               value={settings.shop_address || ''}
               onChange={(e) => setSettings({ ...settings, shop_address: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 outline-none transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] outline-none transition"
             />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Standard Warranty Coverage</label>
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">Hospitality & Guarantee Note</label>
             <input
               type="text"
               value={settings.default_warranty || ''}
               onChange={(e) => setSettings({ ...settings, default_warranty: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 outline-none transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] outline-none transition"
             />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Default Quote Message Template</label>
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">Default Maître d' Greeting Note</label>
             <textarea
               rows={3}
               value={settings.default_quote_notes || ''}
               onChange={(e) => setSettings({ ...settings, default_quote_notes: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl p-4 text-sm text-slate-900 outline-none transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl p-4 text-sm text-[#1A1816] outline-none transition"
             />
           </div>
         </div>
@@ -449,78 +427,70 @@ export default function AdminSettings() {
             type="button"
             onClick={handleSaveSettings}
             disabled={isSaving}
-            className="py-3.5 px-8 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold text-sm rounded-xl transition shadow-md shadow-red-600/20 flex items-center space-x-2 active:scale-95 cursor-pointer"
+            className="py-3.5 px-8 bg-[#1A1816] hover:bg-[#2A2624] disabled:opacity-50 text-[#EFECE6] border border-[#B38E5D] font-bold text-sm rounded-xl transition shadow-md flex items-center space-x-2 active:scale-95 cursor-pointer"
           >
-            {isSaving ? (
-              <><Loader2 className="w-4 h-4 animate-spin" /><span>Saving Changes...</span></>
-            ) : (
-              <><Save className="w-4 h-4" /><span>Save All Settings</span></>
-            )}
+            <span>{isSaving ? 'Saving Changes...' : 'Save All Settings'}</span>
           </button>
         </div>
       </div>
 
       {/* SECTION 4: Change Admin Password */}
-      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="border-b border-slate-100 pb-5">
-          <div className="flex items-center space-x-2.5">
-            <Key className="w-5 h-5 text-red-600" />
-            <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-900">
-              Change Admin Password
-            </h2>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Update your private password anytime so nobody else can access your shop management portal.
+      <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="border-b border-[#D8D2C5]/60 pb-5">
+          <span className="text-[10px] font-mono tracking-widest text-[#B38E5D] uppercase block mb-1">Security</span>
+          <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1A1816]">
+            Update Maître d' Access Key
+          </h2>
+          <p className="text-xs sm:text-sm text-[#7A7265] mt-1">
+            Update your administrative access key anytime to ensure secure portal management.
           </p>
         </div>
 
         {passSuccess && (
-          <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm flex items-center space-x-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <div className="p-4 rounded-xl bg-[#EDF5EC] border border-[#B2D8B9] text-[#2C6E33] text-xs sm:text-sm">
             <span>{passSuccess}</span>
           </div>
         )}
 
         {passError && (
-          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm flex items-center space-x-2">
-            <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm">
             <span>{passError}</span>
           </div>
         )}
 
         <form onSubmit={handleChangePassword} className="space-y-4 max-w-md">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Current Password</label>
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">Current Access Key</label>
             <input
               type="password"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
-              placeholder="Current admin password"
-              className="w-full bg-slate-50 border border-slate-200 focus:border-shop-red focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 outline-none transition"
+              placeholder="Current key (e.g. verandah2024)"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] outline-none transition"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">New Password</label>
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">New Access Key</label>
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Minimum 6 characters"
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 outline-none transition"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] outline-none transition"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Confirm New Password</label>
+            <label className="block text-xs font-bold text-[#1A1816] uppercase tracking-wider mb-2">Confirm New Access Key</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Re-type new password"
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 outline-none transition"
+              placeholder="Re-type new access key"
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-[#B38E5D] rounded-xl px-4 py-3 text-sm text-[#1A1816] outline-none transition"
               required
             />
           </div>
@@ -528,13 +498,9 @@ export default function AdminSettings() {
           <button
             type="submit"
             disabled={isChangingPass}
-            className="py-3 px-6 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-bold text-xs rounded-xl transition flex items-center space-x-2 active:scale-95"
+            className="py-3 px-6 bg-[#F4EFE6] hover:bg-[#EFECE6] border border-[#D8D2C5] text-[#1A1816] font-bold text-xs rounded-xl transition flex items-center space-x-2 active:scale-95 cursor-pointer"
           >
-            {isChangingPass ? (
-              <><Loader2 className="w-4 h-4 animate-spin text-red-600" /><span>Updating Password...</span></>
-            ) : (
-              <><Lock className="w-4 h-4 text-red-600" /><span>Update Private Password</span></>
-            )}
+            <span>{isChangingPass ? 'Updating Key...' : 'Update Access Key'}</span>
           </button>
         </form>
       </div>

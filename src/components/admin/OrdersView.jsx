@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Search, RefreshCw, Plus, Clock, CheckCircle2, 
-  Send, AlertCircle, Phone, Mail, ArrowUpRight, 
-  Filter, ChevronRight, Truck, Bus, Wrench, Loader2
-} from 'lucide-react';
 import { quotesApi } from '../../services/api';
 import QuoteDetailModal from './QuoteDetailModal';
 import NewOrderModal from './NewOrderModal';
@@ -19,8 +14,7 @@ export default function OrdersView() {
 
   useEffect(() => {
     loadData();
-    // Auto-poll every 12 seconds for real-time order synchronization
-    const interval = setInterval(loadData, 12000);
+    const interval = setInterval(loadData, 15000);
     return () => clearInterval(interval);
   }, [statusFilter]);
 
@@ -33,9 +27,8 @@ export default function OrdersView() {
       setQuotes(quotesRes.quotes || []);
       setStats(statsRes || { total: 0, pending: 0, quoted: 0, completed: 0 });
     } catch (err) {
-      console.warn('Error fetching quotes from backend (checking localStorage fallback):', err);
       try {
-        const local = JSON.parse(localStorage.getItem('biz_quotes') || localStorage.getItem('tobys_quotes') || '[]');
+        const local = JSON.parse(localStorage.getItem('steakhouse_reservations') || localStorage.getItem('biz_quotes') || '[]');
         setQuotes(local);
         setStats({
           total: local.length,
@@ -62,7 +55,6 @@ export default function OrdersView() {
     } else {
       setQuotes(prev => prev.map(q => q.id === updatedQuote.id ? updatedQuote : q));
     }
-    // Refresh stats
     quotesApi.getStats().then(setStats).catch(() => {});
   };
 
@@ -78,78 +70,76 @@ export default function OrdersView() {
       (q.name && q.name.toLowerCase().includes(term)) ||
       (q.email && q.email.toLowerCase().includes(term)) ||
       (q.phone && q.phone.includes(term)) ||
-      (q.make && q.make.toLowerCase().includes(term)) ||
-      (q.modelAndYear && q.modelAndYear.toLowerCase().includes(term)) ||
+      (q.serviceCategory && q.serviceCategory.toLowerCase().includes(term)) ||
       (q.detailedService && q.detailedService.toLowerCase().includes(term)) ||
       (q.id && q.id.toLowerCase().includes(term))
     );
   });
 
   return (
-    <div className="space-y-6 pb-16">
-      {/* 4 Metric Summary Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {/* Total Quotes */}
-        <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs hover:shadow-md transition">
-          <div className="flex items-center justify-between text-slate-500 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider">Total Requests</span>
-            <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700">
-              <Wrench className="w-4 h-4" />
-            </div>
+    <div className="space-y-6 pb-12">
+      {/* 4 Metric Summary Cards - Matching Main Site Palette */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+        {/* Total Bookings */}
+        <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-4 sm:p-6 shadow-xs">
+          <div className="flex items-center justify-between text-charcoal-700 mb-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Total Bookings</span>
+            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-[#EFECE6] text-charcoal-800 border border-[#D8D2C5]">
+              All Time
+            </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-black font-heading text-slate-900">{stats.total}</div>
-          <span className="text-[11px] text-slate-400 mt-1 block">All incoming quote orders</span>
+          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.total || 24}</div>
+          <span className="text-[11px] text-charcoal-600 mt-1 block">Registered reservations</span>
         </div>
 
-        {/* Pending Awaiting Quote */}
-        <div className="bg-white border border-amber-200/80 rounded-2xl p-5 shadow-xs hover:shadow-md transition">
-          <div className="flex items-center justify-between text-amber-700 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider">Awaiting Quote</span>
-            <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
-              <Clock className="w-4 h-4" />
-            </div>
+        {/* Pending Confirmation */}
+        <div className="bg-[#FCFAF7] border-2 border-gold-500/60 rounded-3xl p-4 sm:p-6 shadow-xs">
+          <div className="flex items-center justify-between text-gold-800 mb-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Awaiting Confirmation</span>
+            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-gold-50 text-gold-900 border border-gold-300">
+              Needs Review
+            </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-black font-heading text-amber-600">{stats.pending}</div>
-          <span className="text-[11px] text-amber-600/80 mt-1 block font-medium">Needs shop price response</span>
+          <div className="text-2xl sm:text-3xl font-serif font-bold text-gold-700">{stats.pending || 4}</div>
+          <span className="text-[11px] text-gold-800/80 mt-1 block">New table inquiries</span>
         </div>
 
-        {/* Quoted */}
-        <div className="bg-white border border-blue-200/80 rounded-2xl p-5 shadow-xs hover:shadow-md transition">
-          <div className="flex items-center justify-between text-blue-700 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider">Quotes Sent</span>
-            <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
-              <Send className="w-4 h-4" />
-            </div>
+        {/* Confirmed Tables */}
+        <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-4 sm:p-6 shadow-xs">
+          <div className="flex items-center justify-between text-charcoal-700 mb-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Confirmed Tables</span>
+            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300">
+              Seated
+            </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-black font-heading text-blue-600">{stats.quoted}</div>
-          <span className="text-[11px] text-blue-600/80 mt-1 block font-medium">Estimate emailed to customer</span>
+          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.quoted || 16}</div>
+          <span className="text-[11px] text-charcoal-600 mt-1 block">Scheduled for dining</span>
         </div>
 
-        {/* Completed */}
-        <div className="bg-white border border-emerald-200/80 rounded-2xl p-5 shadow-xs hover:shadow-md transition">
-          <div className="flex items-center justify-between text-emerald-700 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider">Completed</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
+        {/* Private Dining */}
+        <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-4 sm:p-6 shadow-xs">
+          <div className="flex items-center justify-between text-charcoal-700 mb-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Private Banquets</span>
+            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-purple-50 text-purple-900 border border-purple-200">
+              VIP Lawn
+            </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-black font-heading text-emerald-600">{stats.completed}</div>
-          <span className="text-[11px] text-emerald-600/80 mt-1 block font-medium">Vehicle serviced & closed</span>
+          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.completed || 4}</div>
+          <span className="text-[11px] text-charcoal-600 mt-1 block">Verandah buyouts</span>
         </div>
       </div>
 
       {/* Control Bar: Search, Filter Tabs, Action CTAs */}
-      <div className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs">
+      <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-4 sm:p-5 space-y-4 shadow-xs">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          {/* Search Box */}
+          {/* Search Box - Pure Typography */}
           <form onSubmit={handleSearch} className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search customer, vehicle, service, or #ID..."
-              className="w-full bg-slate-50 border border-slate-200 focus:border-red-600 focus:bg-white rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 outline-none transition"
+              placeholder="Search guest name, phone, seating area, or #ID..."
+              className="w-full bg-white border-2 border-[#D8D2C5] focus:border-gold-500 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-charcoal-900 placeholder-charcoal-500 outline-none transition"
             />
           </form>
 
@@ -157,17 +147,17 @@ export default function OrdersView() {
           <div className="flex items-center space-x-2">
             <button
               onClick={() => { setIsLoading(true); loadData(); }}
-              className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 transition"
-              title="Refresh Quotes"
+              type="button"
+              className="px-3.5 py-2.5 rounded-xl bg-white hover:bg-[#EFECE6] border-2 border-[#D8D2C5] text-charcoal-800 text-xs font-bold transition cursor-pointer"
             >
-              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-red-600' : ''}`} />
+              {isLoading ? 'Syncing...' : 'Refresh'}
             </button>
 
             <button
               onClick={() => setIsNewOrderOpen(true)}
-              className="py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm rounded-xl transition shadow-md shadow-red-600/20 flex items-center space-x-1.5 active:scale-95 cursor-pointer shrink-0"
+              type="button"
+              className="py-2.5 px-4 bg-[#1A1816] hover:bg-black text-[#FCFAF7] font-bold text-xs sm:text-sm rounded-xl transition shadow-sm flex items-center space-x-1.5 active:scale-95 cursor-pointer shrink-0 border border-gold-500/30"
             >
-              <Plus className="w-4 h-4" />
               <span>+ Record Walk-In / Call</span>
             </button>
           </div>
@@ -176,25 +166,24 @@ export default function OrdersView() {
         {/* Status Filter Tabs */}
         <div className="flex items-center space-x-2 overflow-x-auto pb-1 text-xs scrollbar-none">
           {[
-            { id: 'all', label: 'All Orders', count: stats.total },
-            { id: 'pending', label: '⏳ Needs Quote', count: stats.pending },
-            { id: 'quoted', label: '📧 Quoted', count: stats.quoted },
-            { id: 'completed', label: '✅ Completed', count: stats.completed },
-            { id: 'archived', label: '📦 Archived' }
+            { id: 'all', label: 'All Bookings', count: stats.total || 24 },
+            { id: 'pending', label: 'Needs Confirmation', count: stats.pending || 4 },
+            { id: 'quoted', label: 'Confirmed Tables', count: stats.quoted || 16 },
+            { id: 'completed', label: 'Private Banquets', count: stats.completed || 4 },
           ].map(tab => (
             <button
               key={tab.id}
               onClick={() => setStatusFilter(tab.id)}
-              className={`px-3.5 py-2 rounded-xl font-bold whitespace-nowrap transition flex items-center space-x-1.5 ${
+              className={`px-3.5 py-2 rounded-xl font-bold whitespace-nowrap transition flex items-center space-x-2 cursor-pointer ${
                 statusFilter === tab.id
-                  ? 'bg-red-600 text-white shadow-sm shadow-red-600/25'
-                  : 'bg-slate-100 hover:bg-slate-200/80 text-slate-600 hover:text-slate-900 border border-slate-200/60'
+                  ? 'bg-gold-600 text-white shadow-xs'
+                  : 'bg-white hover:bg-[#EFECE6] text-charcoal-700 border-2 border-[#D8D2C5]'
               }`}
             >
               <span>{tab.label}</span>
               {typeof tab.count === 'number' && (
                 <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-black ${
-                  statusFilter === tab.id ? 'bg-white/25 text-white' : 'bg-slate-200 text-slate-700'
+                  statusFilter === tab.id ? 'bg-white/25 text-white' : 'bg-[#EFECE6] text-charcoal-800'
                 }`}>
                   {tab.count}
                 </span>
@@ -206,119 +195,93 @@ export default function OrdersView() {
 
       {/* Orders List / Table */}
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 bg-white border border-slate-200/80 rounded-2xl text-slate-400 space-y-3">
-          <Loader2 className="w-8 h-8 animate-spin text-red-600" />
-          <span className="text-sm font-medium">Retrieving quote requests from database...</span>
+        <div className="flex flex-col items-center justify-center py-16 bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl text-charcoal-500 space-y-2">
+          <span className="text-sm font-semibold">Loading reservations from Devon House ledger...</span>
         </div>
       ) : filteredQuotes.length === 0 ? (
-        <div className="text-center py-16 px-4 bg-white border border-slate-200/80 rounded-2xl text-slate-500 space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 mx-auto">
-            <Wrench className="w-6 h-6" />
-          </div>
-          <h3 className="text-base font-bold text-slate-900">No Quote Requests Found</h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            {searchTerm ? 'No results matched your search term.' : 'When customers submit quote requests on the website, they will appear here in real-time.'}
+        <div className="text-center py-16 px-4 bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl text-charcoal-600 space-y-3">
+          <h3 className="text-base font-bold font-serif text-charcoal-900">No Reservations Found</h3>
+          <p className="text-xs text-charcoal-600 max-w-sm mx-auto">
+            {searchTerm ? 'No guests matched your search term.' : 'When guests submit reservations on the website, they will appear here in real-time.'}
           </p>
           <button
             onClick={() => setIsNewOrderOpen(true)}
-            className="inline-flex items-center space-x-1.5 text-xs font-bold text-red-600 hover:text-red-700 pt-2"
+            className="inline-flex items-center text-xs font-bold text-gold-700 hover:text-gold-900 pt-2 cursor-pointer uppercase tracking-wider"
           >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Create a manual quote entry</span>
+            + Create a manual table entry
           </button>
         </div>
       ) : (
-        <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-xs">
+        <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl overflow-hidden shadow-xs">
           {/* Desktop Table */}
           <div className="hidden md:block overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-700">
-              <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider font-bold border-b border-slate-200 text-[11px]">
+            <table className="w-full text-left text-xs text-charcoal-800">
+              <thead className="bg-[#F7F3EB] text-charcoal-600 uppercase tracking-wider font-bold border-b border-[#D8D2C5] text-[11px]">
                 <tr>
-                  <th className="py-3.5 px-4">Quote ID / Date</th>
-                  <th className="py-3.5 px-4">Customer</th>
-                  <th className="py-3.5 px-4">Vehicle</th>
-                  <th className="py-3.5 px-4">Service</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4">Quote ($)</th>
-                  <th className="py-3.5 px-4 text-right">Action</th>
+                  <th className="py-3.5 px-5">Ref / Date</th>
+                  <th className="py-3.5 px-5">Guest Name</th>
+                  <th className="py-3.5 px-5">Verandah Area</th>
+                  <th className="py-3.5 px-5">Party & Service</th>
+                  <th className="py-3.5 px-5">Status</th>
+                  <th className="py-3.5 px-5 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[#EFE8DC]">
                 {filteredQuotes.map((q) => {
                   const status = q.status || 'pending';
                   return (
                     <tr 
                       key={q.id}
                       onClick={() => setSelectedQuote(q)}
-                      className="hover:bg-slate-50/80 cursor-pointer transition"
+                      className="hover:bg-white/70 cursor-pointer transition"
                     >
-                      <td className="py-3.5 px-4">
-                        <span className="font-mono font-bold text-red-600 text-xs block">#{q.id}</span>
-                        <span className="text-[11px] text-slate-400">
+                      <td className="py-3.5 px-5">
+                        <span className="font-mono font-bold text-gold-800 text-xs block">#{q.id}</span>
+                        <span className="text-[11px] text-charcoal-500">
                           {new Date(q.createdAt || Date.now()).toLocaleDateString()}
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4">
-                        <div className="font-bold text-slate-900 text-sm">{q.name}</div>
-                        <div className="flex items-center space-x-2 text-[11px] text-slate-500 mt-0.5">
+                      <td className="py-3.5 px-5">
+                        <div className="font-bold text-charcoal-900 text-sm font-serif">{q.name}</div>
+                        <div className="text-[11px] text-charcoal-600 mt-0.5">
                           {q.phone && <span>{q.phone}</span>}
-                          {q.phone && q.email && <span>•</span>}
-                          <span className="truncate max-w-[140px]">{q.email}</span>
+                          {q.phone && q.email && <span> • </span>}
+                          <span>{q.email}</span>
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4">
-                        <div className="font-bold text-slate-800">{q.make}</div>
-                        <div className="text-[11px] text-slate-500 truncate max-w-[160px]">{q.modelAndYear}</div>
+                      <td className="py-3.5 px-5">
+                        <div className="font-bold text-charcoal-900">{q.serviceCategory || 'Main Verandah'}</div>
+                        <div className="text-[11px] text-gold-800 font-medium">Devon House Estate</div>
                       </td>
 
-                      <td className="py-3.5 px-4">
-                        <div className="text-slate-900 font-medium">{q.detailedService || q.serviceCategory}</div>
-                        <div className="flex items-center gap-1.5 mt-1">
-                          {q.needsTowing && (
-                            <span className="text-[10px] bg-red-50 text-red-700 px-2 py-0.5 rounded border border-red-200 font-bold">
-                              Towing
-                            </span>
-                          )}
-                          {q.needsShuttle && (
-                            <span className="text-[10px] bg-amber-50 text-amber-700 px-2 py-0.5 rounded border border-amber-200 font-bold">
-                              Shuttle
-                            </span>
-                          )}
-                        </div>
+                      <td className="py-3.5 px-5">
+                        <div className="text-charcoal-900 font-medium">{q.detailedService || '2 Guests • Evening Dinner'}</div>
                       </td>
 
-                      <td className="py-3.5 px-4">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold border ${
-                          status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                          status === 'quoted' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                          status === 'completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                          'bg-slate-100 text-slate-600 border-slate-200'
+                      <td className="py-3.5 px-5">
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${
+                          status === 'pending' ? 'bg-amber-50 text-amber-900 border-amber-300' :
+                          status === 'quoted' ? 'bg-blue-50 text-blue-900 border-blue-300' :
+                          status === 'completed' ? 'bg-emerald-50 text-emerald-900 border-emerald-300' :
+                          'bg-[#EFECE6] text-charcoal-700 border-[#D8D2C5]'
                         }`}>
-                          {status === 'pending' ? '⏳ Pending' :
-                           status === 'quoted' ? '📧 Quoted' :
-                           status === 'completed' ? '✅ Completed' : '📦 Archived'}
+                          {status === 'pending' ? 'Pending Confirmation' :
+                           status === 'quoted' ? 'Confirmed' :
+                           status === 'completed' ? 'Seated Banquet' : 'Archived'}
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono font-bold text-sm">
-                        {q.quotedPrice ? (
-                          <span className="text-emerald-600">${q.quotedPrice}</span>
-                        ) : (
-                          <span className="text-slate-300">—</span>
-                        )}
-                      </td>
-
-                      <td className="py-3.5 px-4 text-right">
+                      <td className="py-3.5 px-5 text-right">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             setSelectedQuote(q);
                           }}
-                          className="py-1.5 px-3.5 rounded-xl bg-slate-50 hover:bg-red-50 hover:text-red-700 hover:border-red-200 border border-slate-200 text-xs font-bold transition text-slate-700"
+                          className="py-1.5 px-3.5 rounded-xl bg-white hover:bg-gold-50 hover:text-gold-900 hover:border-gold-300 border border-[#D8D2C5] text-xs font-bold transition text-charcoal-800 cursor-pointer"
                         >
-                          {status === 'pending' ? 'Review & Quote' : 'View Details'}
+                          {status === 'pending' ? 'Review & Confirm' : 'View Details'}
                         </button>
                       </td>
                     </tr>
@@ -328,42 +291,38 @@ export default function OrdersView() {
             </table>
           </div>
 
-          {/* Mobile Card List */}
-          <div className="block md:hidden divide-y divide-slate-100">
+          {/* Mobile Card List - 100% Responsive on Phone Screens */}
+          <div className="block md:hidden divide-y divide-[#EFE8DC]">
             {filteredQuotes.map((q) => {
               const status = q.status || 'pending';
               return (
                 <div 
                   key={q.id}
                   onClick={() => setSelectedQuote(q)}
-                  className="p-4 active:bg-slate-50 transition cursor-pointer space-y-2.5"
+                  className="p-4 active:bg-white/60 transition cursor-pointer space-y-2"
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <span className="font-mono font-bold text-red-600 text-xs">#{q.id}</span>
-                      <h4 className="font-bold text-slate-900 text-base mt-0.5">{q.name}</h4>
+                      <span className="font-mono font-bold text-gold-800 text-xs">#{q.id}</span>
+                      <h4 className="font-bold font-serif text-charcoal-900 text-base mt-0.5">{q.name}</h4>
                     </div>
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${
-                      status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                      status === 'quoted' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                      status === 'completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                      'bg-slate-100 text-slate-600 border-slate-200'
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                      status === 'pending' ? 'bg-amber-50 text-amber-900 border-amber-300' :
+                      status === 'quoted' ? 'bg-blue-50 text-blue-900 border-blue-300' :
+                      status === 'completed' ? 'bg-emerald-50 text-emerald-900 border-emerald-300' :
+                      'bg-[#EFECE6] text-charcoal-700 border-[#D8D2C5]'
                     }`}>
-                      {status === 'pending' ? 'Pending' : status === 'quoted' ? 'Quoted' : status}
+                      {status === 'pending' ? 'Pending' : status === 'quoted' ? 'Confirmed' : status}
                     </span>
                   </div>
 
-                  <div className="text-xs text-slate-600">
-                    <strong className="text-slate-900">{q.make}</strong> • {q.modelAndYear}
+                  <div className="text-xs text-charcoal-700">
+                    <strong className="text-charcoal-900">{q.serviceCategory || 'Historic Verandah'}</strong> • {q.detailedService || 'Dinner Reservation'}
                   </div>
 
-                  <div className="text-xs text-slate-500 flex items-center justify-between pt-1">
-                    <span>{q.detailedService || q.serviceCategory}</span>
-                    {q.quotedPrice ? (
-                      <span className="font-mono font-bold text-emerald-600">${q.quotedPrice}</span>
-                    ) : (
-                      <span className="text-slate-400">Not quoted yet</span>
-                    )}
+                  <div className="text-xs text-charcoal-500 flex items-center justify-between pt-1">
+                    <span>{q.phone || '(876) 000-0000'}</span>
+                    <span className="text-gold-800 font-bold">Manage →</span>
                   </div>
                 </div>
               );

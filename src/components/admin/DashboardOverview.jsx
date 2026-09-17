@@ -79,7 +79,7 @@ export default function DashboardOverview({ onViewAllOrders, onOpenQuoteDetail, 
         </div>
 
         {/* Live Service Clock Card */}
-        <div className="bg-black/50 border border-white/10 rounded-2xl p-4 sm:p-5 flex items-center space-x-5 flex-shrink-0">
+        <div className="bg-black/70 border border-gold-500/30 rounded-2xl p-4 sm:p-5 flex items-center space-x-4 shrink-0">
           <div>
             <span className="text-[10px] uppercase tracking-widest text-gold-400 font-semibold block">
               Evening Shift Elapsed
@@ -88,69 +88,73 @@ export default function DashboardOverview({ onViewAllOrders, onOpenQuoteDetail, 
               {formatTimer(serviceTimerSeconds)}
             </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-gold-600/20 border border-gold-500/40 flex items-center justify-center text-gold-400 text-lg">
-            🍷
-          </div>
+          <img 
+            src="/images/gallery-cocktails.jpg" 
+            alt="Estate Wine & Cocktails" 
+            className="w-11 h-11 rounded-xl object-cover border border-gold-500/60 shadow-xs"
+          />
         </div>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      {/* KPI Cards Grid - Matching Main Site Palette */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
         {[
-          { label: 'Total Reservations', val: stats.total || 24, badge: 'This Week', color: 'border-[#D5CABB] text-charcoal-900' },
-          { label: 'Pending Confirmation', val: stats.pending || 4, badge: 'Immediate Action', color: 'border-gold-500 bg-gold-50/50 text-gold-900' },
-          { label: 'Confirmed Tables', val: stats.quoted || 16, badge: 'Seated / Reserved', color: 'border-emerald-300 bg-emerald-50/40 text-emerald-900' },
-          { label: 'Private Verandah Events', val: 3, badge: 'VIP Banquets', color: 'border-purple-300 bg-purple-50/40 text-purple-900' },
+          { label: 'Total Reservations', val: stats.total || 24, badge: 'This Week', color: 'border-[#D8D2C5] text-charcoal-900' },
+          { label: 'Pending Confirmation', val: stats.pending || 4, badge: 'Needs Action', color: 'border-gold-500 bg-gold-50/40 text-gold-950' },
+          { label: 'Confirmed Tables', val: stats.quoted || 16, badge: 'Seated', color: 'border-emerald-300 bg-emerald-50/40 text-emerald-950' },
+          { label: 'Private Verandah Events', val: 3, badge: 'VIP Lawn', color: 'border-purple-300 bg-purple-50/40 text-purple-950' },
         ].map((kpi, i) => (
-          <div key={i} className={`p-5 sm:p-6 rounded-3xl bg-[#FAF8F5] border-2 ${kpi.color} shadow-lg space-y-2`}>
+          <div key={i} className={`p-4 sm:p-6 rounded-3xl bg-[#FCFAF7] border-2 ${kpi.color} shadow-xs space-y-1.5`}>
             <div className="flex justify-between items-start">
               <span className="text-[11px] uppercase tracking-wider font-semibold text-charcoal-600">
                 {kpi.label}
               </span>
-              <span className="text-[9px] px-2 py-0.5 rounded-full bg-white/80 border border-charcoal-200 font-bold uppercase">
+              <span className="text-[9px] px-2 py-0.5 rounded-full bg-white border border-[#D8D2C5] font-bold uppercase text-charcoal-800">
                 {kpi.badge}
               </span>
             </div>
-            <div className="font-serif text-3xl sm:text-4xl font-bold">
+            <div className="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900">
               {kpi.val}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Recent Reservations Table */}
-      <div className="rounded-3xl bg-[#FAF8F5] border-2 border-[#E5DFD4] p-6 sm:p-8 shadow-xl space-y-6">
-        <div className="flex items-center justify-between">
+      {/* Recent Reservations Table Container */}
+      <div className="rounded-3xl bg-[#FCFAF7] border-2 border-[#D8D2C5] p-4 sm:p-7 shadow-xs space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-gold-700 font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-gold-800 font-bold">
               Real-Time Table Intake
             </span>
-            <h3 className="font-serif text-2xl font-bold text-charcoal-900">
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-charcoal-900">
               Upcoming Reservations & Inquiries
             </h3>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2.5">
             <button
               onClick={onViewAllOrders}
-              className="rounded-full border border-charcoal-900 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-charcoal-900 hover:bg-charcoal-900 hover:text-white transition"
+              type="button"
+              className="rounded-full border-2 border-charcoal-900 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-charcoal-900 hover:bg-charcoal-900 hover:text-white transition cursor-pointer"
             >
               All Bookings →
             </button>
             <button
               onClick={onNewOrder}
-              className="rounded-full bg-gold-600 hover:bg-gold-700 text-white px-5 py-2 text-xs font-semibold uppercase tracking-wider transition shadow"
+              type="button"
+              className="rounded-full bg-gold-600 hover:bg-gold-700 text-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition shadow cursor-pointer whitespace-nowrap"
             >
-              + Walk-In / Phone
+              + Walk-In / Call
             </button>
           </div>
         </div>
 
-        {/* Table View */}
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-xs sm:text-sm">
             <thead>
-              <tr className="border-b border-[#E0D8CA] text-charcoal-500 uppercase tracking-wider text-[11px]">
+              <tr className="border-b border-[#D8D2C5] text-charcoal-600 uppercase tracking-wider text-[11px]">
                 <th className="pb-3 font-semibold">Guest</th>
                 <th className="pb-3 font-semibold">Area & Party</th>
                 <th className="pb-3 font-semibold">Contact</th>
@@ -161,34 +165,34 @@ export default function DashboardOverview({ onViewAllOrders, onOpenQuoteDetail, 
             <tbody className="divide-y divide-[#EFE8DC]">
               {quotes.length > 0 ? (
                 quotes.slice(0, 6).map((q) => (
-                  <tr key={q.id} className="hover:bg-white/60 transition group cursor-pointer" onClick={() => onOpenQuoteDetail(q)}>
-                    <td className="py-4 font-bold text-charcoal-900 font-serif">
+                  <tr key={q.id} className="hover:bg-white/70 transition group cursor-pointer" onClick={() => onOpenQuoteDetail(q)}>
+                    <td className="py-3.5 font-bold text-charcoal-900 font-serif">
                       {q.name}
                     </td>
-                    <td className="py-4 text-charcoal-700">
-                      <div className="font-medium text-gold-800">{q.serviceCategory || 'Historic Verandah'}</div>
+                    <td className="py-3.5 text-charcoal-700">
+                      <div className="font-semibold text-gold-800">{q.serviceCategory || 'Historic Verandah'}</div>
                       <div className="text-[11px] text-charcoal-500">{q.detailedService || '2 Guests • Dinner'}</div>
                     </td>
-                    <td className="py-4 text-charcoal-600">
+                    <td className="py-3.5 text-charcoal-600">
                       <div>{q.phone || '(876) 000-0000'}</div>
-                      <div className="text-[11px] text-charcoal-400">{q.email}</div>
+                      <div className="text-[11px] text-charcoal-500">{q.email}</div>
                     </td>
-                    <td className="py-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        q.status === 'completed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
-                        q.status === 'quoted' ? 'bg-blue-100 text-blue-800 border border-blue-300' :
-                        'bg-amber-100 text-amber-900 border border-amber-300'
+                    <td className="py-3.5">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                        q.status === 'completed' ? 'bg-emerald-50 text-emerald-900 border-emerald-300' :
+                        q.status === 'quoted' ? 'bg-blue-50 text-blue-900 border-blue-300' :
+                        'bg-amber-50 text-amber-900 border-amber-300'
                       }`}>
-                        {q.status || 'Pending'}
+                        {q.status === 'completed' ? 'Seated' : q.status === 'quoted' ? 'Confirmed' : 'Pending'}
                       </span>
                     </td>
-                    <td className="py-4 text-right">
+                    <td className="py-3.5 text-right">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           onOpenQuoteDetail(q);
                         }}
-                        className="text-gold-700 hover:text-gold-900 font-semibold underline text-xs"
+                        className="text-gold-800 hover:text-gold-950 font-bold text-xs underline cursor-pointer"
                       >
                         Manage →
                       </button>
@@ -198,12 +202,47 @@ export default function DashboardOverview({ onViewAllOrders, onOpenQuoteDetail, 
               ) : (
                 <tr>
                   <td colSpan="5" className="py-8 text-center text-charcoal-500">
-                    No active reservations recorded. Book a table on the public site or use "+ Walk-In / Phone" above.
+                    No active reservations recorded. Book a table on the public site or use "+ Walk-In / Call" above.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Responsive Cards - Clean Stacked Layout on Phones */}
+        <div className="block md:hidden divide-y divide-[#EFE8DC]">
+          {quotes.length > 0 ? (
+            quotes.slice(0, 6).map((q) => (
+              <div 
+                key={q.id}
+                onClick={() => onOpenQuoteDetail(q)}
+                className="py-3.5 first:pt-0 last:pb-0 space-y-1.5 cursor-pointer active:bg-white/60 transition"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="font-serif font-bold text-charcoal-900 text-sm">{q.name}</span>
+                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border ${
+                    q.status === 'completed' ? 'bg-emerald-50 text-emerald-900 border-emerald-300' :
+                    q.status === 'quoted' ? 'bg-blue-50 text-blue-900 border-blue-300' :
+                    'bg-amber-50 text-amber-900 border-amber-300'
+                  }`}>
+                    {q.status === 'completed' ? 'Seated' : q.status === 'quoted' ? 'Confirmed' : 'Pending'}
+                  </span>
+                </div>
+                <div className="text-xs text-gold-800 font-medium">
+                  {q.serviceCategory || 'Historic Verandah'} • <span className="text-charcoal-600">{q.detailedService || '2 Guests'}</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-charcoal-500 pt-0.5">
+                  <span>{q.phone || '(876) 000-0000'}</span>
+                  <span className="text-gold-800 font-bold">Manage Booking →</span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="py-6 text-center text-xs text-charcoal-500">
+              No active reservations recorded.
+            </div>
+          )}
         </div>
 
       </div>
