@@ -42,9 +42,10 @@ export default function Navbar({ onOpenWizard, currentPage = 'home', onNavigate 
     { name: 'HOME', target: '#' },
     { name: 'MENU', target: 'services' },
     { name: 'ABOUT', target: '#about' },
+    { name: 'LOCATION', target: '#location' },
     { name: 'RESERVATION', action: 'wizard' },
     { name: 'GALLERY', target: '#gallery' },
-    { name: 'CONTACT', target: '#contact' },
+    { name: 'CONTACT', target: '#location' },
   ];
 
   return (

@@ -1,160 +1,317 @@
-import React from 'react';
-import { MapPin, Clock, Navigation, Phone, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
 import { BUSINESS_INFO, isOpenNow } from '../../data/businessData';
 
 export default function LocationHoursSection({ onOpenWizard }) {
+  const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState('directions'); // 'directions' | 'hours' | 'parking' | 'landmarks'
   const shopOpen = isOpenNow();
+
   const currentDayIndex = new Date().getDay();
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const currentDayName = dayNames[currentDayIndex];
 
+  const handleCopyAddress = () => {
+    navigator.clipboard.writeText(BUSINESS_INFO.address.formatted);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
+  };
+
+  const googleMapsPlaceUrl = "https://www.google.com/maps/place/The+Steak+House+on+The+Verandah/@18.0148763,-76.7898652,3a,75y,90t/data=!3m8!1e2!3m6!1sCIHM0ogKEICAgICW4cO57wE!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAHRPTWl5m8g532doLZ8qnGopZgmTi0CMD-IpCq-_6DuuQrc-n19M_eO1SGQoBalZ2xKRx1L6hyxVhu7juKrLGwVK_iUPZD5O_kPbv6pLugorlpy7aBxjAbSu0-in3ga-8IlDb6vDxmgDQQ%3Dw640-h640-n-k-no!7i3024!8i4032!4m7!3m6!1s0x8edb3fad9f9e15b1:0x5f4e81daf34213eb!8m2!3d18.0148763!4d-76.7898652!10e9!16s%2Fg%2F11gcm38grl?authuser=0&hl=en&entry=ttu";
+
   return (
-    <section id="location" className="py-20 sm:py-24 bg-white dark:bg-black transition-colors" aria-labelledby="location-heading">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header (Bigger typography) */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <h2 id="location-heading" className="text-3xl sm:text-5xl font-black font-heading text-gray-900 dark:text-white tracking-tight">
-            Location & Hours
+    <section id="location" className="py-24 sm:py-32 bg-[#EFECE6] border-t border-[#D8D2C5] relative overflow-hidden" aria-labelledby="location-heading">
+      {/* Subtle Background Accent */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#B38E5D]/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20 space-y-4">
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#FCFAF7] border border-[#D8D2C5] shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-[#B38E5D]" />
+            <span className="font-mono text-xs font-bold text-[#8C6B1B] uppercase tracking-widest">
+              ESTATE LOCATION & VISITOR GUIDE
+            </span>
+          </div>
+
+          <h2 id="location-heading" className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#1A1816] tracking-tight">
+            Find Us at Devon House
           </h2>
-          <p className="text-gray-600 dark:text-neutral-400 mt-3 sm:mt-4 text-base sm:text-xl leading-relaxed">
-            Conveniently located in Casa Grande, AZ. Drop by, call ahead, or schedule a quote online.
+
+          <p className="text-[#5A5245] text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto">
+            Situated on the breezy north-facing wraparound verandah of Jamaica's celebrated 1881 Georgian mansion in the heart of Kingston.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Hours & Contact Card */}
-          <div className="lg:col-span-5 bg-white dark:bg-[#0c0c0c] border border-gray-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm flex flex-col justify-between transition-colors">
-            <div>
-              {/* Open/Closed Status */}
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-gray-50 dark:bg-[#141414] border border-gray-100 dark:border-neutral-800 mb-6">
-                <div className="flex items-center space-x-3.5">
-                  <span className={`w-3.5 h-3.5 rounded-full ${shopOpen ? 'bg-green-500 animate-pulse' : 'bg-amber-500'}`} aria-hidden="true" />
-                  <div>
-                    <span className={`font-bold text-base sm:text-lg block ${shopOpen ? 'text-green-700 dark:text-green-400' : 'text-amber-700 dark:text-amber-400'}`}>
-                      {shopOpen ? 'Open Now' : 'Currently Closed'}
-                    </span>
-                    <span className="text-xs sm:text-sm text-gray-500 dark:text-neutral-400">Today is {currentDayName}</span>
-                  </div>
-                </div>
-                <Clock className="w-6 h-6 text-gray-400" aria-hidden="true" />
-              </div>
-
-              {/* Hours Table */}
-              <div>
-                <h3 className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-3">
-                  Weekly Business Hours
-                </h3>
-                <div className="divide-y divide-gray-100 dark:divide-gray-800 text-sm sm:text-base">
-                  {BUSINESS_INFO.hours.map((h) => {
-                    const isToday = h.day.toLowerCase() === currentDayName.toLowerCase();
-                    return (
-                      <div
-                        key={h.day}
-                        className={`py-2.5 px-3 flex justify-between items-center rounded-xl ${
-                          isToday 
-                            ? 'bg-red-50 dark:bg-red-950/40 font-semibold' 
-                            : 'text-gray-700 dark:text-gray-300'
-                        }`}
-                      >
-                        <span className={isToday ? 'text-red-700 dark:text-red-400 font-bold' : ''}>
-                          {h.day}
-                          {isToday && (
-                            <span className="ml-2 text-[10px] uppercase px-2 py-0.5 rounded-md bg-red-700 text-white font-bold">
-                              Today
-                            </span>
-                          )}
-                        </span>
-                        <div className="text-right">
-                          <span className={h.open === 'Closed' ? 'text-red-600 dark:text-red-400 font-medium' : 'text-gray-900 dark:text-white'}>
-                            {h.open === 'Closed' ? 'Closed' : `${h.open} – ${h.close}`}
-                          </span>
-                          {h.note && (
-                            <span className="text-xs text-amber-600 dark:text-amber-400 block font-normal">({h.note})</span>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+        {/* TOP INTERACTIVE STATUS & QUICK ACTIONS BAR */}
+        <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-5 sm:p-6 mb-10 shadow-thick flex flex-wrap items-center justify-between gap-4">
+          {/* Status Indicator */}
+          <div className="flex items-center space-x-4">
+            <div className="relative flex items-center justify-center">
+              <span className={`w-3.5 h-3.5 rounded-full ${shopOpen ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+              <span className={`absolute w-3.5 h-3.5 rounded-full ${shopOpen ? 'bg-emerald-500 animate-ping opacity-75' : 'bg-amber-500'}`} />
             </div>
-
-            {/* Address & Contact (Semantic Address for Local SEO) */}
-            <address className="not-italic pt-5 border-t border-gray-100 dark:border-gray-800 space-y-3.5 text-sm sm:text-base">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-red-700 dark:text-red-500 shrink-0 mt-1" aria-hidden="true" />
-                <div>
-                  <span className="font-bold text-gray-900 dark:text-white block text-base">{BUSINESS_INFO.legalName}</span>
-                  <span className="text-gray-600 dark:text-gray-400">{BUSINESS_INFO.address.formatted}</span>
-                </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <span className="font-serif font-bold text-base sm:text-lg text-[#1A1816]">
+                  {shopOpen ? 'Open for Verandah Dining' : 'Currently Closed'}
+                </span>
+                <span className="text-xs px-2 py-0.5 rounded-md bg-[#F4EFE6] border border-[#D8D2C5] text-[#7A7265] font-mono">
+                  Today is {currentDayName}
+                </span>
               </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-red-700 dark:text-red-500 shrink-0" aria-hidden="true" />
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <a 
-                    href={`tel:${BUSINESS_INFO.phone.replace(/[^0-9]/g, '')}`} 
-                    className="font-bold text-gray-900 dark:text-white hover:text-red-700 dark:hover:text-red-400 transition text-base"
-                    aria-label={`Call main phone: ${BUSINESS_INFO.phone}`}
-                  >
-                    {BUSINESS_INFO.phone}
-                  </a>
-                  <span className="text-gray-300 dark:text-gray-600">|</span>
-                  <a 
-                    href={`tel:${BUSINESS_INFO.secondaryPhone.replace(/[^0-9]/g, '')}`} 
-                    className="text-gray-500 dark:text-gray-400 hover:text-red-700 dark:hover:text-red-400 transition text-sm"
-                    aria-label={`Call secondary line: ${BUSINESS_INFO.secondaryPhone}`}
-                  >
-                    Alt: {BUSINESS_INFO.secondaryPhone}
-                  </a>
-                </div>
-              </div>
-            </address>
-
-            {/* Get Directions Button */}
-            <a
-              href={BUSINESS_INFO.googleMapsLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-3.5 px-5 rounded-xl bg-gray-900 dark:bg-[#141414] hover:bg-gray-800 dark:hover:bg-[#1f1f1f] text-white font-bold text-base transition flex items-center justify-center space-x-2.5 active:scale-95 shadow-md border border-transparent dark:border-neutral-700"
-              aria-label="Get Google Maps GPS driving directions to Toby's Auto Mechanic in Casa Grande"
-            >
-              <Navigation className="w-5 h-5" />
-              <span>Get Driving Directions</span>
-              <ExternalLink className="w-4 h-4 text-gray-400" />
-            </a>
+              <p className="text-xs text-[#7A7265] mt-0.5">
+                {currentDayName === 'Monday' 
+                  ? 'Mondays reserved for private banquets & diplomatic receptions.' 
+                  : 'Lunch from 11:30 AM • Candlelight Dinner until 10:00 PM'}
+              </p>
+            </div>
           </div>
 
-          {/* Interactive Google Map */}
-          <div className="lg:col-span-7 bg-white dark:bg-[#0c0c0c] border border-gray-200 dark:border-neutral-800 rounded-3xl overflow-hidden shadow-sm flex flex-col transition-colors">
-            <div className="px-5 py-4 border-b border-gray-100 dark:border-neutral-800 flex items-center justify-between bg-stone-50/50 dark:bg-[#141414]">
-              <span className="font-bold text-gray-900 dark:text-white text-sm sm:text-base">📍 15276 W Jimmie Kerr Blvd, Casa Grande, AZ</span>
-              <a
-                href={BUSINESS_INFO.googleMapsLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-red-700 dark:text-red-400 hover:text-red-800 font-bold text-xs sm:text-sm flex items-center space-x-1"
-                aria-label="Open location in Google Maps"
-              >
-                <span>Open in Maps</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              onClick={handleCopyAddress}
+              className="px-4 py-2.5 rounded-xl bg-[#F4EFE6] hover:bg-[#EFECE6] border border-[#D8D2C5] text-xs font-bold text-[#1A1816] transition active:scale-95 cursor-pointer"
+            >
+              {copied ? 'Address Copied!' : 'Copy Full Address'}
+            </button>
+
+            <a
+              href={`tel:${BUSINESS_INFO.phone.replace(/[^0-9]/g, '')}`}
+              className="px-4 py-2.5 rounded-xl bg-[#F4EFE6] hover:bg-[#EFECE6] border border-[#D8D2C5] text-xs font-bold text-[#1A1816] transition active:scale-95"
+            >
+              Call Host: {BUSINESS_INFO.phone}
+            </a>
+
+            <button
+              onClick={() => onOpenWizard && onOpenWizard()}
+              className="px-5 py-2.5 rounded-xl bg-[#1A1816] hover:bg-[#2A2624] text-[#EFECE6] border border-[#B38E5D] text-xs font-bold transition shadow-sm active:scale-95 cursor-pointer"
+            >
+              Reserve a Table
+            </button>
+          </div>
+        </div>
+
+        {/* MAIN BIG MAP & LOCATION SHOWCASE */}
+        <div className="space-y-10">
+          
+          {/* GIGANTIC INTERACTIVE GOOGLE MAP CONTAINER */}
+          <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl overflow-hidden shadow-2xl transition">
+            
+            {/* Map Top Bar with Devon House Seal & Direct GPS Links */}
+            <div className="px-6 py-4 bg-[#FCFAF7] border-b border-[#D8D2C5] flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center space-x-3.5">
+                <img 
+                  src="/images/devon-mansion-real.jpg" 
+                  alt="Devon House Estate" 
+                  className="w-11 h-11 rounded-2xl object-cover border-2 border-[#B38E5D]/50 shadow-xs"
+                />
+                <div>
+                  <h3 className="font-serif font-bold text-base sm:text-lg text-[#1A1816] leading-snug">
+                    The Steak House on The Verandah
+                  </h3>
+                  <p className="text-xs text-[#7A7265]">
+                    26 Hope Road, Devon House Courtyard, Kingston 10, Jamaica
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <a
+                  href={googleMapsPlaceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-[#1A1816] hover:bg-[#2A2624] text-[#EFECE6] text-xs font-bold transition shadow-xs flex items-center space-x-1.5"
+                >
+                  <span>Open in Google Maps</span>
+                  <span>↗</span>
+                </a>
+
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=The+Steak+House+on+The+Verandah+Devon+House+Kingston+Jamaica`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-[#F4EFE6] hover:bg-[#EFECE6] border border-[#D8D2C5] text-[#1A1816] text-xs font-bold transition flex items-center space-x-1.5"
+                >
+                  <span>GPS Directions</span>
+                  <span>↗</span>
+                </a>
+              </div>
             </div>
-            <div className="w-full flex-1 min-h-[320px] sm:min-h-[400px] lg:min-h-[460px]">
+
+            {/* Huge Map Frame */}
+            <div className="relative w-full h-[480px] sm:h-[580px] lg:h-[640px] bg-[#E5E0D5]">
               <iframe
-                title="Toby's Auto Mechanic Shop Location Map in Casa Grande, AZ"
-                src={BUSINESS_INFO.googleMapsEmbedUrl}
+                title="The Steak House on The Verandah Google Map Location at Devon House, Kingston, Jamaica"
+                src="https://maps.google.com/maps?q=The+Steak+House+on+The+Verandah+26+Hope+Road+Kingston+Jamaica&t=&z=16&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full min-h-[320px] sm:min-h-[400px]"
+                className="w-full h-full"
               />
+
+              {/* Floating Bottom Info Pill inside the Map */}
+              <div className="absolute bottom-5 left-5 right-5 sm:right-auto z-10 bg-[#FCFAF7]/95 backdrop-blur-md border-2 border-[#D8D2C5] rounded-2xl p-4 shadow-xl max-w-md">
+                <div className="flex items-start space-x-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#F4EFE6] border border-[#D8D2C5] flex items-center justify-center shrink-0 font-serif font-bold text-xs text-[#8C6B1B]">
+                    DH
+                  </div>
+                  <div>
+                    <span className="font-serif font-bold text-sm text-[#1A1816] block">
+                      Historic Devon House Courtyard
+                    </span>
+                    <p className="text-xs text-[#5A5245] mt-0.5 leading-relaxed">
+                      Coordinates: 18.0148° N, 76.7898° W • Main gate at 26 Hope Road (opposite Trafalgar Road).
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* DETAILED 4-PILLAR ESTATE VISITATION GUIDE */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            {/* Pillar 1: Gate & Arrival */}
+            <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-7 space-y-3 shadow-thick flex flex-col justify-between">
+              <div>
+                <span className="font-mono text-[10px] font-bold tracking-widest text-[#8C6B1B] uppercase block mb-1">
+                  01 // ARRIVAL & GATES
+                </span>
+                <h3 className="font-serif text-lg font-bold text-[#1A1816]">
+                  Estate Gate Access
+                </h3>
+                <p className="text-xs text-[#5A5245] leading-relaxed mt-2">
+                  Enter through the grand wrought-iron gates on <strong>26 Hope Road</strong> directly across from the Waterloo & Trafalgar intersection. Follow the tree-lined driveway to the dining roundabout.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-[#D8D2C5]/60 text-[11px] text-[#7A7265]">
+                Lighted brick walkways lead past the fountain straight to the covered Verandah.
+              </div>
+            </div>
+
+            {/* Pillar 2: Parking & Security */}
+            <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-7 space-y-3 shadow-thick flex flex-col justify-between">
+              <div>
+                <span className="font-mono text-[10px] font-bold tracking-widest text-[#8C6B1B] uppercase block mb-1">
+                  02 // PARKING & SAFETY
+                </span>
+                <h3 className="font-serif text-lg font-bold text-[#1A1816]">
+                  Complimentary Parking
+                </h3>
+                <p className="text-xs text-[#5A5245] leading-relaxed mt-2">
+                  Extensive free parking is available inside the gated Devon House grounds with <strong>24/7 uniformed security patrols</strong>. A VIP vehicle drop-off loop sits steps from the entrance.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-[#D8D2C5]/60 text-[11px] text-[#7A7265]">
+                Ramp access for wheelchair and mobility-impaired guests at courtyard entrance.
+              </div>
+            </div>
+
+            {/* Pillar 3: Dining Schedules */}
+            <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-7 space-y-3 shadow-thick flex flex-col justify-between">
+              <div>
+                <span className="font-mono text-[10px] font-bold tracking-widest text-[#8C6B1B] uppercase block mb-1">
+                  03 // HOURS & SEATING
+                </span>
+                <h3 className="font-serif text-lg font-bold text-[#1A1816]">
+                  Service Schedule
+                </h3>
+                <div className="space-y-1.5 text-xs text-[#4A443D] mt-2">
+                  <div className="flex justify-between border-b border-[#D8D2C5]/40 pb-1">
+                    <span className="font-medium">Tue – Thu:</span>
+                    <span>11:30 AM – 10:00 PM</span>
+                  </div>
+                  <div className="flex justify-between border-b border-[#D8D2C5]/40 pb-1">
+                    <span className="font-medium">Fri – Sat:</span>
+                    <span>11:30 AM – 10:30 PM</span>
+                  </div>
+                  <div className="flex justify-between border-b border-[#D8D2C5]/40 pb-1">
+                    <span className="font-medium">Sunday:</span>
+                    <span>11:30 AM – 8:30 PM</span>
+                  </div>
+                  <div className="flex justify-between text-[#8C6B1B]">
+                    <span className="font-medium">Monday:</span>
+                    <span className="italic">Private Events</span>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-3 border-t border-[#D8D2C5]/60 text-[11px] text-[#7A7265]">
+                Reservations recommended for dinner and weekend verandah seating.
+              </div>
+            </div>
+
+            {/* Pillar 4: Attire & Ambience */}
+            <div className="bg-[#FCFAF7] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-7 space-y-3 shadow-thick flex flex-col justify-between">
+              <div>
+                <span className="font-mono text-[10px] font-bold tracking-widest text-[#8C6B1B] uppercase block mb-1">
+                  04 // DRESS CODE
+                </span>
+                <h3 className="font-serif text-lg font-bold text-[#1A1816]">
+                  Verandah Etiquette
+                </h3>
+                <p className="text-xs text-[#5A5245] leading-relaxed mt-2">
+                  We request <strong>Smart Casual or Evening Elegance</strong>. Collared shirts, trousers, and refined footwear are appreciated. Please refrain from beachwear, slippers, or athletic apparel.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-[#D8D2C5]/60 text-[11px] text-[#7A7265]">
+                Open-air breeze with ambient candlelit chandeliers and vintage mahogany charm.
+              </div>
+            </div>
+
+          </div>
+
+          {/* KINGSTON LANDMARKS & PROXIMITY STRIP */}
+          <div className="bg-[#F4EFE6] border-2 border-[#D8D2C5] rounded-3xl p-6 sm:p-8">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+              <div>
+                <h4 className="font-serif font-bold text-lg text-[#1A1816]">
+                  Proximity to Kingston Landmarks
+                </h4>
+                <p className="text-xs text-[#7A7265] mt-0.5">
+                  Centrally located in Kingston 10 with direct arterial connections to hotels, embassies, and cultural centers.
+                </p>
+              </div>
+              <span className="font-mono text-xs text-[#8C6B1B] bg-[#FCFAF7] px-3 py-1.5 rounded-xl border border-[#D8D2C5]">
+                St. Andrew Central
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="bg-[#FCFAF7] p-4 rounded-2xl border border-[#D8D2C5]">
+                <span className="text-xs text-[#7A7265] block">Bob Marley Museum</span>
+                <span className="font-serif font-bold text-base text-[#1A1816] block mt-1">5 Minutes</span>
+                <span className="text-[11px] text-[#8C6B1B]">2.1 km east on Hope Rd</span>
+              </div>
+
+              <div className="bg-[#FCFAF7] p-4 rounded-2xl border border-[#D8D2C5]">
+                <span className="text-xs text-[#7A7265] block">New Kingston Financial</span>
+                <span className="font-serif font-bold text-base text-[#1A1816] block mt-1">4 Minutes</span>
+                <span className="text-[11px] text-[#8C6B1B]">1.8 km via Trafalgar Rd</span>
+              </div>
+
+              <div className="bg-[#FCFAF7] p-4 rounded-2xl border border-[#D8D2C5]">
+                <span className="text-xs text-[#7A7265] block">AC Hotel by Marriott</span>
+                <span className="font-serif font-bold text-base text-[#1A1816] block mt-1">6 Minutes</span>
+                <span className="text-[11px] text-[#8C6B1B]">2.4 km via Lady Musgrave</span>
+              </div>
+
+              <div className="bg-[#FCFAF7] p-4 rounded-2xl border border-[#D8D2C5]">
+                <span className="text-xs text-[#7A7265] block">Norman Manley Airport</span>
+                <span className="font-serif font-bold text-base text-[#1A1816] block mt-1">25 Minutes</span>
+                <span className="text-[11px] text-[#8C6B1B]">19 km via Harbor View</span>
+              </div>
+            </div>
+          </div>
+
         </div>
+
       </div>
     </section>
   );
 }
+

@@ -149,21 +149,34 @@ export default function Footer({ onOpenWizard, onNavigate }) {
 
           {/* Column 4 (3 cols): Stylized Map Card matching mockup */}
           <div className="lg:col-span-3 space-y-2.5">
-            <h5 className="font-serif text-sm font-bold uppercase tracking-wider text-charcoal-900">
-              Estate Location
-            </h5>
+            <div className="flex items-center justify-between">
+              <h5 className="font-serif text-sm font-bold uppercase tracking-wider text-charcoal-900">
+                Estate Location
+              </h5>
+              <button
+                onClick={(e) => handleLinkClick(e, '#location')}
+                className="text-[11px] text-gold-800 hover:underline font-bold"
+              >
+                Full Guide ↓
+              </button>
+            </div>
 
             {/* Map Preview Card matching the thumbnail in mockup bottom right */}
             <div className="rounded-2xl overflow-hidden border border-[#D5CABB] bg-white p-2 shadow-md group">
-              <div className="relative h-28 w-full rounded-xl overflow-hidden bg-[#E2DBD0]">
+              <div className="relative h-32 w-full rounded-xl overflow-hidden bg-[#E2DBD0]">
                 {/* Embed Map snippet */}
                 <iframe
                   title="Devon House Location Map"
-                  src="https://maps.google.com/maps?q=The+Steak+House+on+the+Verandah+Devon+House+Kingston&t=&z=14&ie=UTF8&iwloc=&output=embed"
-                  className="w-full h-full border-0 grayscale-[40%] contrast-125"
+                  src="https://maps.google.com/maps?q=The+Steak+House+on+The+Verandah+26+Hope+Road+Kingston+Jamaica&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  className="w-full h-full border-0 grayscale-[20%] contrast-110"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-transparent hover:bg-black/10 transition pointer-events-none" />
+                <a 
+                  href="#location"
+                  onClick={(e) => handleLinkClick(e, '#location')}
+                  className="absolute inset-0 bg-transparent hover:bg-black/10 transition"
+                  aria-label="View large interactive map"
+                />
               </div>
 
               <div className="pt-2 px-1 flex items-center justify-between text-[11px]">
@@ -176,7 +189,7 @@ export default function Footer({ onOpenWizard, onNavigate }) {
                   rel="noopener noreferrer"
                   className="text-gold-700 font-semibold hover:underline flex-shrink-0 ml-1"
                 >
-                  Directions →
+                  GPS Map →
                 </a>
               </div>
             </div>

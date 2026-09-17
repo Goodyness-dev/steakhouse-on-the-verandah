@@ -3,6 +3,7 @@ import Navbar from './components/layout/Navbar';
 import Hero from './components/home/Hero';
 import MainShowcaseSection from './components/home/MainShowcaseSection';
 import BentoFeatureCards from './components/home/BentoFeatureCards';
+import LocationHoursSection from './components/home/LocationHoursSection';
 import Footer from './components/layout/Footer';
 import AllServicesPage from './components/services/AllServicesPage';
 import QuoteWizardModal from './components/wizard/QuoteWizardModal';
@@ -146,6 +147,9 @@ export default function App() {
               onOpenWizard={handleOpenWizard} 
               onViewAllServices={() => handleNavigate('services')}
             />
+
+            {/* Estate Location & Interactive Google Map Visitor Guide */}
+            <LocationHoursSection onOpenWizard={handleOpenWizard} />
           </>
         )}
       </main>
