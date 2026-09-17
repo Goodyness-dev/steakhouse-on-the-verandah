@@ -80,6 +80,23 @@ export default function QuoteDetailModal({ quote, onClose, onUpdate }) {
     }
   };
 
+  const displayId = (quote.id || '').toString().startsWith('RES-') 
+    ? quote.id 
+    : `RES-${quote.id}`;
+
+  const formatDateTime = (rawDate) => {
+    if (!rawDate) return 'Today at ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const d = new Date(rawDate);
+    if (isNaN(d.getTime())) {
+      if (typeof rawDate === 'string' && rawDate.length > 3) return rawDate;
+      return 'Today at ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    return `${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  };
+
+  const rawDate = quote.createdAt || quote.created_at || quote.submittedAt;
+  const formattedDate = formatDateTime(rawDate);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#1A1816]/70 backdrop-blur-sm overflow-y-auto">
       <div 
@@ -97,10 +114,10 @@ export default function QuoteDetailModal({ quote, onClose, onUpdate }) {
             <div>
               <div className="flex items-center space-x-2">
                 <span className="font-mono text-xs font-bold text-[#B38E5D] bg-[#F4EFE6] px-2.5 py-0.5 rounded-md border border-[#D8D2C5]">
-                  RES-#{quote.id}
+                  {displayId}
                 </span>
                 <span className="text-xs text-[#7A7265]">
-                  {new Date(quote.createdAt).toLocaleDateString()} at {new Date(quote.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {formattedDate}
                 </span>
               </div>
               <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1A1816] mt-0.5">
@@ -200,7 +217,7 @@ export default function QuoteDetailModal({ quote, onClose, onUpdate }) {
               {/* Previous Quote Alert Banner */}
               {quote.quotedPrice && (
                 <div className="p-4 rounded-2xl bg-[#EBF2F7] border border-[#B7D4E7] text-xs sm:text-sm text-[#1E5275] shadow-xs">
-                  <div className="font-bold">Previous Confirmation Sent on {quote.quoteSentAt ? new Date(quote.quoteSentAt).toLocaleString() : 'N/A'}</div>
+                  <div className="font-bold">Previous Confirmation Sent on {quote.quoteSentAt ? formatDateTime(quote.quoteSentAt) : 'Recent Service'}</div>
                   <div>Estimated Cost / Deposit: <strong className="font-mono text-[#1E5275]">${quote.quotedPrice}</strong> • Seating: {quote.estimatedTurnaround || 'Verandah Dining'}</div>
                   <div className="text-[11px] text-[#2C6E33] mt-1">You may modify the estimate below and re-send anytime.</div>
                 </div>

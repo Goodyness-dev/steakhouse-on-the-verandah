@@ -4,9 +4,18 @@
 import { quotesApi } from './api';
 
 export const formatReservationSummary = (data) => {
+  const now = new Date().toISOString();
   return {
-    submittedAt: new Date().toLocaleString(),
+    submittedAt: now,
+    createdAt: now,
+    created_at: now,
     id: `RES-${Date.now().toString().slice(-6)}`,
+    name: data.name,
+    email: data.email,
+    phone: data.phone || 'Not provided',
+    serviceCategory: data.seatingArea || 'Historic Verandah',
+    detailedService: `${data.partySize || '2 Guests'} • ${data.occasion || 'Dining Experience'}`,
+    status: 'pending',
     customer: {
       name: data.name,
       email: data.email,

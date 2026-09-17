@@ -18,6 +18,16 @@ export default function OrdersView() {
     return () => clearInterval(interval);
   }, [statusFilter]);
 
+  const formatDate = (rawDate) => {
+    if (!rawDate) return new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const d = new Date(rawDate);
+    if (isNaN(d.getTime())) {
+      if (typeof rawDate === 'string' && rawDate.length > 3) return rawDate;
+      return new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
   const loadData = async () => {
     try {
       const [quotesRes, statsRes] = await Promise.all([
@@ -29,12 +39,27 @@ export default function OrdersView() {
     } catch (err) {
       try {
         const local = JSON.parse(localStorage.getItem('steakhouse_reservations') || localStorage.getItem('biz_quotes') || '[]');
-        setQuotes(local);
+        const normalized = local.map(r => ({
+          id: r.id || `RES-${Date.now().toString().slice(-6)}`,
+          name: r.name || r.customer?.name || 'Valued Guest',
+          email: r.email || r.customer?.email || '',
+          phone: r.phone || r.customer?.phone || '',
+          serviceCategory: r.serviceCategory || r.reservation?.seatingArea || 'Historic Devon House Verandah',
+          detailedService: r.detailedService || `${r.reservation?.partySize || '2 Guests'} • ${r.reservation?.occasion || 'Table Reservation'}`,
+          createdAt: r.createdAt || r.created_at || r.submittedAt || new Date().toISOString(),
+          submittedAt: r.submittedAt || r.createdAt || new Date().toISOString(),
+          status: r.status || 'pending',
+          details: r.details || (r.reservation ? `Dining Date: ${r.reservation.date} at ${r.reservation.timeSlot}` : ''),
+          customIssue: r.customIssue || r.reservation?.culinaryNotes || '',
+          propertyType: r.propertyType || r.reservation?.partySize || '',
+          location: r.location || r.reservation?.seatingArea || 'Devon House Verandah'
+        }));
+        setQuotes(normalized);
         setStats({
-          total: local.length,
-          pending: local.filter(q => q.status === 'pending' || !q.status).length,
-          quoted: local.filter(q => q.status === 'quoted').length,
-          completed: local.filter(q => q.status === 'completed').length
+          total: normalized.length,
+          pending: normalized.filter(q => q.status === 'pending' || !q.status).length,
+          quoted: normalized.filter(q => q.status === 'quoted').length,
+          completed: normalized.filter(q => q.status === 'completed').length
         });
       } catch (e) {
         console.error(e);
@@ -236,9 +261,11 @@ export default function OrdersView() {
                       className="hover:bg-white/70 cursor-pointer transition"
                     >
                       <td className="py-3.5 px-5">
-                        <span className="font-mono font-bold text-gold-800 text-xs block">#{q.id}</span>
+                        <span className="font-mono font-bold text-gold-800 text-xs block">
+                          {q.id?.toString().startsWith('RES-') ? q.id : `#${q.id}`}
+                        </span>
                         <span className="text-[11px] text-charcoal-500">
-                          {new Date(q.createdAt || Date.now()).toLocaleDateString()}
+                          {formatDate(q.createdAt || q.created_at || q.submittedAt)}
                         </span>
                       </td>
 
@@ -303,7 +330,9 @@ export default function OrdersView() {
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <span className="font-mono font-bold text-gold-800 text-xs">#{q.id}</span>
+                      <span className="font-mono font-bold text-gold-800 text-xs">
+                        {q.id?.toString().startsWith('RES-') ? q.id : `#${q.id}`}
+                      </span>
                       <h4 className="font-bold font-serif text-charcoal-900 text-base mt-0.5">{q.name}</h4>
                     </div>
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
