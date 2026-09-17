@@ -40,10 +40,17 @@ export default function App() {
   // Sync with browser URL hash for routing
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash;
+      const hash = (window.location.hash || '').toLowerCase();
       if (hash === '#/admin' || hash === '#admin') {
         setCurrentPage('admin');
-      } else if (hash === '#/services' || hash === '#services' || hash === '#menu') {
+      } else if (
+        hash === '#/menu' || 
+        hash === '#menu' || 
+        hash.startsWith('#/menu') ||
+        hash === '#/services' || 
+        hash === '#services' ||
+        hash.startsWith('#/services')
+      ) {
         setCurrentPage('services');
       } else {
         setCurrentPage('home');
@@ -56,15 +63,21 @@ export default function App() {
   }, []);
 
   const handleNavigate = (page) => {
-    setCurrentPage(page);
     if (page === 'services') {
-      window.location.hash = '#/menu';
+      if (window.location.hash !== '#/menu') {
+        window.location.hash = '#/menu';
+      }
+      setCurrentPage('services');
     } else if (page === 'admin') {
-      window.location.hash = '#/admin';
+      if (window.location.hash !== '#/admin') {
+        window.location.hash = '#/admin';
+      }
+      setCurrentPage('admin');
     } else {
-      if (window.location.hash.startsWith('#/menu') || window.location.hash.startsWith('#/admin')) {
+      if (window.location.hash && (window.location.hash.includes('menu') || window.location.hash.includes('admin') || window.location.hash.includes('services'))) {
         window.history.pushState(null, '', window.location.pathname);
       }
+      setCurrentPage('home');
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

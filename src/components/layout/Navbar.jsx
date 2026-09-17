@@ -93,6 +93,7 @@ export default function Navbar({ onOpenWizard, currentPage = 'home', onNavigate 
             return (
               <button
                 key={link.name}
+                type="button"
                 onClick={(e) => {
                   if (link.action === 'wizard') {
                     onOpenWizard();
@@ -100,7 +101,7 @@ export default function Navbar({ onOpenWizard, currentPage = 'home', onNavigate 
                     handleNavClick(e, link.target);
                   }
                 }}
-                className={`text-[13px] font-medium tracking-[0.16em] transition-all duration-200 cursor-pointer ${
+                className={`text-[13px] font-medium tracking-[0.16em] transition-all duration-200 cursor-pointer touch-manipulation ${
                   isMenu 
                     ? 'text-gold-700 font-semibold border-b border-gold-600 pb-0.5' 
                     : 'text-charcoal-800 hover:text-gold-600'
@@ -126,8 +127,9 @@ export default function Navbar({ onOpenWizard, currentPage = 'home', onNavigate 
           </a>
 
           <button
+            type="button"
             onClick={() => onOpenWizard()}
-            className="rounded-full border border-charcoal-900/80 px-7 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-charcoal-900 hover:bg-charcoal-900 hover:text-white transition-all duration-300 shadow-sm active:scale-95 cursor-pointer"
+            className="rounded-full border border-charcoal-900/80 px-7 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-charcoal-900 hover:bg-charcoal-900 hover:text-white transition-all duration-300 shadow-sm active:scale-95 cursor-pointer touch-manipulation"
             aria-label="Book a Table at Devon House"
           >
             BOOK A TABLE
@@ -137,14 +139,16 @@ export default function Navbar({ onOpenWizard, currentPage = 'home', onNavigate 
         {/* Mobile Menu Button */}
         <div className="flex lg:hidden items-center space-x-3">
           <button
+            type="button"
             onClick={() => onOpenWizard()}
-            className="rounded-full border border-charcoal-900 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-charcoal-900 active:scale-95"
+            className="rounded-full border border-charcoal-900 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-charcoal-900 active:scale-95 touch-manipulation"
           >
             Book
           </button>
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-charcoal-800 hover:text-black focus:outline-none"
+            type="button"
+            onClick={() => setMobileMenuOpen(prev => !prev)}
+            className="p-2 text-charcoal-800 hover:text-black focus:outline-none touch-manipulation"
             aria-label="Toggle Navigation"
           >
             {mobileMenuOpen ? (
@@ -168,6 +172,7 @@ export default function Navbar({ onOpenWizard, currentPage = 'home', onNavigate 
             {navLinks.map((link) => (
               <button
                 key={link.name}
+                type="button"
                 onClick={(e) => {
                   if (link.action === 'wizard') {
                     setMobileMenuOpen(false);
@@ -176,7 +181,7 @@ export default function Navbar({ onOpenWizard, currentPage = 'home', onNavigate 
                     handleNavClick(e, link.target);
                   }
                 }}
-                className="block w-full text-left py-2 text-sm font-medium tracking-widest text-charcoal-900 border-b border-[#EAE5DB]"
+                className="block w-full text-left py-2 text-sm font-medium tracking-widest text-charcoal-900 border-b border-[#EAE5DB] touch-manipulation"
               >
                 {link.name}
               </button>
