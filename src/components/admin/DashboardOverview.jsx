@@ -4,7 +4,7 @@ import { BUSINESS_INFO } from '../../data/businessData';
 
 export default function DashboardOverview({ onViewAllOrders, onOpenQuoteDetail, onNewOrder }) {
   const [quotes, setQuotes] = useState([]);
-  const [stats, setStats] = useState({ total: 12, pending: 3, quoted: 6, completed: 3 });
+  const [stats, setStats] = useState({ total: 0, pending: 0, quoted: 0, completed: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
   // Table Service Timer
@@ -30,7 +30,16 @@ export default function DashboardOverview({ onViewAllOrders, onOpenQuoteDetail, 
         quotesApi.getStats()
       ]);
       setQuotes(quotesRes.quotes || []);
-      if (statsRes && statsRes.total > 0) setStats(statsRes);
+      if (statsRes) {
+        setStats({
+          total: statsRes.total || 0,
+          pending: statsRes.pending || 0,
+          quoted: statsRes.quoted || 0,
+          completed: statsRes.completed || 0
+        });
+      } else {
+        setStats({ total: 0, pending: 0, quoted: 0, completed: 0 });
+      }
     } catch (err) {
       // Local fallback
       try {
@@ -38,16 +47,28 @@ export default function DashboardOverview({ onViewAllOrders, onOpenQuoteDetail, 
         if (local.length > 0) {
           setQuotes(local.map(r => ({
             id: r.id,
-            name: r.customer.name,
-            email: r.customer.email,
-            phone: r.customer.phone,
-            serviceCategory: r.reservation.seatingArea,
-            detailedService: `${r.reservation.partySize} • ${r.reservation.occasion}`,
-            status: 'pending',
-            created_at: r.submittedAt
+            name: r.customer?.name || r.name,
+            email: r.customer?.email || r.email,
+            phone: r.customer?.phone || r.phone,
+            serviceCategory: r.reservation?.seatingArea || r.serviceCategory,
+            detailedService: `${r.reservation?.partySize || ''} • ${r.reservation?.occasion || ''}`,
+            status: r.status || 'pending',
+            created_at: r.submittedAt || r.createdAt
           })));
+          setStats({
+            total: local.length,
+            pending: local.filter(q => q.status === 'pending' || !q.status).length,
+            quoted: local.filter(q => q.status === 'quoted').length,
+            completed: local.filter(q => q.status === 'completed').length
+          });
+        } else {
+          setQuotes([]);
+          setStats({ total: 0, pending: 0, quoted: 0, completed: 0 });
         }
-      } catch (e) {}
+      } catch (e) {
+        setQuotes([]);
+        setStats({ total: 0, pending: 0, quoted: 0, completed: 0 });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -99,10 +120,10 @@ export default function DashboardOverview({ onViewAllOrders, onOpenQuoteDetail, 
       {/* KPI Cards Grid - Matching Main Site Palette */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
         {[
-          { label: 'Total Reservations', val: stats.total || 24, badge: 'This Week', color: 'border-[#D8D2C5] text-charcoal-900' },
-          { label: 'Pending Confirmation', val: stats.pending || 4, badge: 'Needs Action', color: 'border-gold-500 bg-gold-50/40 text-gold-950' },
-          { label: 'Confirmed Tables', val: stats.quoted || 16, badge: 'Seated', color: 'border-emerald-300 bg-emerald-50/40 text-emerald-950' },
-          { label: 'Private Verandah Events', val: 3, badge: 'VIP Lawn', color: 'border-purple-300 bg-purple-50/40 text-purple-950' },
+          { label: 'Total Reservations', val: stats.total ?? 0, badge: 'This Week', color: 'border-[#D8D2C5] text-charcoal-900' },
+          { label: 'Pending Confirmation', val: stats.pending ?? 0, badge: 'Needs Action', color: 'border-gold-500 bg-gold-50/40 text-gold-950' },
+          { label: 'Confirmed Tables', val: stats.quoted ?? 0, badge: 'Seated', color: 'border-emerald-300 bg-emerald-50/40 text-emerald-950' },
+          { label: 'Private Verandah Events', val: 0, badge: 'VIP Lawn', color: 'border-purple-300 bg-purple-50/40 text-purple-950' },
         ].map((kpi, i) => (
           <div key={i} className={`p-4 sm:p-6 rounded-3xl bg-[#FCFAF7] border-2 ${kpi.color} shadow-xs space-y-1.5`}>
             <div className="flex justify-between items-start">

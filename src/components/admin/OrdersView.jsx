@@ -88,7 +88,7 @@ export default function OrdersView() {
               All Time
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.total || 24}</div>
+          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.total ?? 0}</div>
           <span className="text-[11px] text-charcoal-600 mt-1 block">Registered reservations</span>
         </div>
 
@@ -100,7 +100,7 @@ export default function OrdersView() {
               Needs Review
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-gold-700">{stats.pending || 4}</div>
+          <div className="text-2xl sm:text-3xl font-serif font-bold text-gold-700">{stats.pending ?? 0}</div>
           <span className="text-[11px] text-gold-800/80 mt-1 block">New table inquiries</span>
         </div>
 
@@ -112,7 +112,7 @@ export default function OrdersView() {
               Seated
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.quoted || 16}</div>
+          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.quoted ?? 0}</div>
           <span className="text-[11px] text-charcoal-600 mt-1 block">Scheduled for dining</span>
         </div>
 
@@ -124,7 +124,7 @@ export default function OrdersView() {
               VIP Lawn
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.completed || 4}</div>
+          <div className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-900">{stats.completed ?? 0}</div>
           <span className="text-[11px] text-charcoal-600 mt-1 block">Verandah buyouts</span>
         </div>
       </div>
